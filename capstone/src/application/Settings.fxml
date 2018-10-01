@@ -55,6 +55,11 @@
 		</VBox>
 	</bottom>
    <left>
-      <Button fx:id="blueButton" mnemonicParsing="false" onAction="#findBlue" style="-fx-background-color: lightblue;" text="Blue" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="blueButton" mnemonicParsing="false" onAction="#findBlue" style="-fx-background-color: lightblue;" text="Blue" />
+            <Button fx:id="greenButton" mnemonicParsing="false" onAction="#findGreen" style="-fx-background-color: lightgreen;" text="Green" />
+         </children>
+      </VBox>
    </left>
 </BorderPane>

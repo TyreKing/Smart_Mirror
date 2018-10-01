@@ -50,6 +50,9 @@ public class SettingsController {
      //FXML button to change the setting to find blue
      @FXML
      private Button blueButton;
+     //FXML button to change the setting to find green
+     @FXML
+     private Button greenButton;
      
      // FXML camera button
     @FXML
@@ -113,17 +116,9 @@ public class SettingsController {
     void openHome(ActionEvent event) {
 
         try {
-//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
-//           
-//        Parent root1 = (Parent) fxmlLoader.load();
-//        
-//        
+        
         Stage stage = new Stage();
-//        
-//        
-//        stage.setTitle("Home screen");
-//        stage.setScene(new Scene(root1));  
-//        stage.show();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
             BorderPane root1 = (BorderPane) loader.load();
             stage.setTitle("Home screen");
@@ -150,6 +145,19 @@ public class SettingsController {
         
         this.valueStart.setValue(20);
         this.valueStop.setValue(255);
+    }
+    
+    @FXML
+    void findGreen(ActionEvent event) {
+        this.hueStart.setValue(40);
+        this.hueStop.setValue(87);
+        
+        this.saturationStart.setValue(90);
+        this.saturationStop.setValue(255);
+        
+        this.valueStart.setValue(20);
+        this.valueStop.setValue(255);
+        
     }
 
     /**
@@ -343,11 +351,13 @@ public class SettingsController {
 
                     leftRightMvmt.clear();
                     if (left) {
+                        //sends data to HomeController to control movement
+                      
                         homeController.getController().highlighted("left");
                         System.out.println("left");
                     }
                     if(right) {
-                        
+                        //sends data to HomeController to control movement
                         homeController.getController().highlighted("right");
                         System.out.println("right");
                     }
