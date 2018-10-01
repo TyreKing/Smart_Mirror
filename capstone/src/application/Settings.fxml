@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="421.0" prefWidth="278.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SettingsController">
+	<right>
+		<VBox alignment="CENTER" spacing="10">
+			<padding>
+				<Insets left="10" right="10" />
+			</padding>
+			<Label text="Hue Start" />
+			<Slider fx:id="hueStart" blockIncrement="1" max="180" min="0" value="70.0" />
+			<Label text="Hue Stop" />
+			<Slider fx:id="hueStop" blockIncrement="1" max="180" min="0" value="122.0" />
+			<Label text="Saturation Start" />
+			<Slider fx:id="saturationStart" blockIncrement="1" max="255" min="0" value="155.0" />
+			<Label text="Saturation Stop" />
+			<Slider fx:id="saturationStop" blockIncrement="1" max="255" min="0" value="255.0" />
+			<Label text="Value Start" />
+			<Slider fx:id="valueStart" blockIncrement="1" max="255" min="0" value="20.0" />
+			<Label text="Value Stop" />
+			<Slider fx:id="valueStop" blockIncrement="1" max="255" min="0" value="255.0" />
+		</VBox>
+	</right>
+	<center>
+		<HBox alignment="CENTER" spacing="5">
+			<padding>
+				<Insets left="10" right="10" />
+			</padding>
+			<ImageView fx:id="originalFrame" />
+			<VBox alignment="CENTER" spacing="5">
+				<ImageView fx:id="maskImage" />
+				<ImageView fx:id="morphImage" />
+			</VBox>
+		</HBox>
+	</center>
+	<bottom>
+		<VBox alignment="CENTER" spacing="15">
+			<padding>
+				<Insets bottom="25" left="25" right="25" top="25" />
+			</padding>
+			<Button fx:id="cameraButton" alignment="center" onAction="#startCamera" text="Start camera" />
+			<Separator />
+         <Button fx:id="Continue" mnemonicParsing="false" onAction="#openHome" text="Continue" />
+         <Separator prefWidth="200.0" />
+			<Label fx:id="hsvCurrentValues" />
+		</VBox>
+	</bottom>
+   <left>
+      <Button fx:id="blueButton" mnemonicParsing="false" onAction="#findBlue" style="-fx-background-color: lightblue;" text="Blue" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>
