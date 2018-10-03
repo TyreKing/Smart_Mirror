@@ -340,6 +340,7 @@ public class SettingsController {
                         new Scalar(250, 0, 0));
                 // System.out.println(rect.x);
 
+               
                 xLocation = rect.x;
                 yLocation = rect.y;
                 leftRightMvmt.add(xLocation);
