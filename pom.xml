@@ -6,6 +6,7 @@
   <name>apiConnectionHelper</name>
   <description>used to help connect to api
 </description>
+
   <build>
     <sourceDirectory>capstone/src</sourceDirectory>
     <resources>
@@ -27,4 +28,11 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.google.cloud</groupId>
+  		<artifactId>google-cloud-speech</artifactId>
+  		<version>0.56.0-beta</version>
+  	</dependency>
+  </dependencies>
 </project>
