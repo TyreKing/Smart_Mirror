@@ -29,10 +29,17 @@
     </plugins>
   </build>
   <dependencies>
+ 
+  
   	<dependency>
   		<groupId>com.google.cloud</groupId>
   		<artifactId>google-cloud-speech</artifactId>
   		<version>0.56.0-beta</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.restfb</groupId>
+  		<artifactId>restfb</artifactId>
+  		<version>2.9.0</version>
   	</dependency>
   </dependencies>
 </project>
