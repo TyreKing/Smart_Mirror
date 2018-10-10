@@ -362,16 +362,18 @@ public class SettingsController {
                         homeController.getController().highlighted("right");
                         System.out.println("right");
                     }
+                    
 
                 }
                 
                 
-                if(upDownMvmt.size()>9) {
+                if(upDownMvmt.size()>20) {
                     up = rightUpMvmt(upDownMvmt);
                     down = leftDownMvmt(upDownMvmt);
                     upDownMvmt.clear();
                     
                     if(up) {
+                        
                         System.out.println("up");
                     }
                     if(down) {
