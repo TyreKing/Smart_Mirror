@@ -27,6 +27,18 @@ public class Permissions {
         return status.getText();
     }
 
+    private Twitter getTwitterinstance() {
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true);
+        cb.setOAuthConsumerKey(System.getenv("oauth.consumerKey"));
+        cb.setOAuthConsumerSecret(System.getenv("oauth.conumerSecret"));
+        cb.setOAuthAccessToken(System.getenv("oauth.accessToken"));
+        cb.setOAuthAccessTokenSecret(System.getenv("oauth.accessTokenSecret"));
+        
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        return twitter;
+    }
    
 
        
