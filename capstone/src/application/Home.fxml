@@ -2,27 +2,29 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="27.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="100.0" prefWidth="185.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="45.0" text="12:00" />
-                  <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="177.0" text="MONDAY OCTOBER 21, 2018" />
+                  <Label prefHeight="17.0" prefWidth="45.0" style="-fx-text-fill: white;" text="12:00" />
+                  <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="177.0" style="-fx-text-fill: white;" text="MONDAY OCTOBER 21, 2018" />
                </children>
             </VBox>
          </children>
       </HBox>
    </bottom>
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="42.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <ImageView fx:id="Logo" fitHeight="77.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -41,39 +43,39 @@
       </HBox>
    </top>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="499.0" prefWidth="0.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="weatherIcon" fitHeight="58.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="weatherIcon" fitHeight="58.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-partly-cloudy-day-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="timeDateIcon" fitHeight="52.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="timeDateIcon" fitHeight="52.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-schedule-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="facebookicon" fitHeight="44.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="facebookicon" fitHeight="44.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-facebook-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="twitterIcon" fitHeight="48.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="twitterIcon" fitHeight="48.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-twitter-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="youtubeIcon" fitHeight="83.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="youtubeIcon" fitHeight="83.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-play-button-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="googleCalendarIcon" fitHeight="81.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="googleCalendar" fitHeight="81.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-google-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="settingsIcon" fitHeight="58.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="settingsIcon" fitHeight="58.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-automation-64.png" />
                </image>
@@ -81,4 +83,15 @@
          </children>
       </VBox>
    </right>
+   <center>
+      <VBox prefHeight="347.0" prefWidth="348.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="tweetLabel" style="-fx-translate-x: 100; -fx-text-fill: white; visibility: hidden;" text="Post A Tweet" />
+            <TextField fx:id="tweetTextField" prefHeight="98.0" prefWidth="318.0" style="-fx-opacity: 0; -fx-background-color: white; -fx-text-inner-color: black;" />
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>

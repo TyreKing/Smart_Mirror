@@ -1,4 +1,6 @@
 package application;
+
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -14,8 +16,6 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
-
-
 import it.polito.elite.teaching.cv.utils.Utils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -30,6 +30,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import speech.Voice;
+import twitter4j.TwitterException;
 
 /**
  * The controller associated with the only view of our application. The
@@ -44,25 +46,28 @@ import javafx.stage.Stage;
  */
 public class SettingsController {
     // FXML button to switch over to the main functions.
-     @FXML
+    @FXML
     private Button Continue;
-     
-     //FXML button to change the setting to find blue
-     @FXML
-     private Button blueButton;
-     //FXML button to change the setting to find green
-     @FXML
-     private Button greenButton;
-     
-     // FXML camera button
+
+    // FXML button to change the setting to find blue
+    @FXML
+    private Button blueButton;
+    // FXML button to change the setting to find green
+    @FXML
+    private Button greenButton;
+    // FXML button to start speech recognition
+    @FXML
+    private Button speechRecognition;
+
+    // FXML camera button
     @FXML
     private Button cameraButton;
     // the FXML area for showing the current frame
-    //@FXML
-   // private ImageView originalFrame;
+    // @FXML
+    // private ImageView originalFrame;
     // the FXML area for showing the mask
-    //@FXML
-   // private ImageView maskImage;
+    // @FXML
+    // private ImageView maskImage;
     // the FXML area for showing the output of the morphological operations
     @FXML
     private ImageView morphImage;
@@ -93,13 +98,10 @@ public class SettingsController {
     private boolean right = false;
     private boolean up = false;
     private boolean down = false;
-    
-    
+
     // this is used to communicate this controller to HomeController
     private HomeController homeController;
 
-    
-    
     // a timer for acquiring the video stream
     private ScheduledExecutorService timer;
     // the OpenCV object that performs the video capture
@@ -109,55 +111,54 @@ public class SettingsController {
 
     // property for object binding
     private ObjectProperty<String> hsvValuesProp;
-    
-    
-    //This will launch the actual program over the setting window
+
+    // This will launch the actual program over the setting window
     @FXML
     void openHome(ActionEvent event) {
 
         try {
-        
-        Stage stage = new Stage();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
+            Stage stage = new Stage();
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("Home.fxml"));
             BorderPane root1 = (BorderPane) loader.load();
             stage.setTitle("Home screen");
-            stage.setScene(new Scene(root1));  
+            stage.setScene(new Scene(root1));
             stage.show();
-             homeController = loader.getController();
-    
-        }catch (Exception e) {
-           System.out.println("New Window will not load");
-        }
-        
+            homeController = loader.getController();
 
-        
+        }
+        catch (Exception e) {
+            System.out.println("New Window will not load");
+        }
+
     }
-    
-    //Action is triggered when pushing blue button
+
+    // Action is triggered when pushing blue button
     @FXML
     void findBlue(ActionEvent event) {
         this.hueStart.setValue(70);
         this.hueStop.setValue(122);
-        
+
         this.saturationStart.setValue(155);
         this.saturationStop.setValue(255);
-        
+
         this.valueStart.setValue(20);
         this.valueStop.setValue(255);
     }
-    
+
     @FXML
     void findGreen(ActionEvent event) {
         this.hueStart.setValue(40);
         this.hueStop.setValue(87);
-        
+
         this.saturationStart.setValue(90);
         this.saturationStop.setValue(255);
-        
+
         this.valueStart.setValue(20);
         this.valueStop.setValue(255);
-        
+
     }
 
     /**
@@ -166,15 +167,14 @@ public class SettingsController {
     @FXML
     private void startCamera() {
 
-        
         // bind a text property with the string containing the current range of
         // HSV values for object detection
         hsvValuesProp = new SimpleObjectProperty<>();
         this.hsvCurrentValues.textProperty().bind(hsvValuesProp);
 
         // set a fixed width for all the image to show and preserve image ratio
-        //this.imageViewProperties(this.originalFrame, 400);
-        //this.imageViewProperties(this.maskImage, 200);
+        // this.imageViewProperties(this.originalFrame, 400);
+        // this.imageViewProperties(this.maskImage, 200);
         this.imageViewProperties(this.morphImage, 200);
 
         if (!this.cameraActive) {
@@ -194,7 +194,7 @@ public class SettingsController {
                         Mat frame = grabFrame();
                         // convert and show the frame
                         Image imageToShow = Utils.mat2Image(frame);
-                       // updateImageView(originalFrame, imageToShow);
+                        // updateImageView(originalFrame, imageToShow);
                     }
                 };
 
@@ -270,8 +270,8 @@ public class SettingsController {
                     // threshold HSV image to select tennis balls
                     Core.inRange(hsvImage, minValues, maxValues, mask);
                     // show the partial output
-                    //this.updateImageView(this.maskImage,
-                          //  Utils.mat2Image(mask));
+                    // this.updateImageView(this.maskImage,
+                    // Utils.mat2Image(mask));
 
                     // morphological operators
                     // dilate with large element, erode with small ones
@@ -292,7 +292,6 @@ public class SettingsController {
 
                     // find the tennis ball(s) contours and show them
                     frame = this.findAndDrawBalls(morphOutput, frame);
-                    
 
                 }
 
@@ -317,8 +316,11 @@ public class SettingsController {
      *            the original {@link Mat} image to be used for drawing the
      *            objects contours
      * @return the {@link Mat} image with the objects contours framed
+     * @throws TwitterException
+     * @throws MalformedURLException
      */
-    private Mat findAndDrawBalls(Mat maskedImage, Mat frame) {
+    private Mat findAndDrawBalls(Mat maskedImage, Mat frame)
+            throws MalformedURLException, TwitterException {
         // init
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
@@ -327,7 +329,6 @@ public class SettingsController {
         Imgproc.findContours(maskedImage, contours, hierarchy,
                 Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        
         // if any contour exist...
         if (hierarchy.size().height > 0 && hierarchy.size().width > 0) {
 
@@ -340,46 +341,44 @@ public class SettingsController {
                         new Scalar(250, 0, 0));
                 // System.out.println(rect.x);
 
-               
                 xLocation = rect.x;
                 yLocation = rect.y;
                 leftRightMvmt.add(xLocation);
                 upDownMvmt.add(yLocation);
-                
+
                 if (leftRightMvmt.size() > 12) {
                     left = leftDownMvmt(leftRightMvmt);
-                    right= rightUpMvmt(leftRightMvmt);
+                    right = rightUpMvmt(leftRightMvmt);
 
                     leftRightMvmt.clear();
                     if (left) {
-                        //sends data to HomeController to control movement
-                      
+                        // sends data to HomeController to control movement
+
                         homeController.getController().highlighted("left");
                         System.out.println("left");
                     }
-                    if(right) {
-                        //sends data to HomeController to control movement
+                    if (right) {
+                        // sends data tos HomeController to control movement
                         homeController.getController().highlighted("right");
                         System.out.println("right");
                     }
-                    
 
                 }
-                
-                
-                if(upDownMvmt.size()>20) {
+
+                if (upDownMvmt.size() > 20) {
                     up = rightUpMvmt(upDownMvmt);
                     down = leftDownMvmt(upDownMvmt);
                     upDownMvmt.clear();
-                    
-                    if(up) {
-                        
+
+                    if (up) {
+                        homeController.getController().highlighted("up");
                         System.out.println("up");
                     }
-                    if(down) {
+                    if (down) {
+                        homeController.getController().highlighted("down");
                         System.out.println("down");
                     }
-                        
+
                 }
 
             }
@@ -390,30 +389,28 @@ public class SettingsController {
 
     private boolean leftDownMvmt(List<Integer> xaxis) {
 
-        //Ascending
+        // Ascending
         for (int i = 0; i < xaxis.size() - 1; i++) {
             if (xaxis.get(i) > xaxis.get(i + 1)) {
-               // leftRightMvmt.clear();
+                // leftRightMvmt.clear();
                 return false;
             }
 
         }
         return true;
     }
-    
+
     private boolean rightUpMvmt(List<Integer> xaxis) {
-       //Descending
+        // Descending
         for (int i = 0; i < xaxis.size() - 1; i++) {
             if (xaxis.get(i) < xaxis.get(i + 1)) {
-               // leftRightMvmt.clear();
+                // leftRightMvmt.clear();
                 return false;
             }
 
         }
         return true;
     }
-    
-    
 
     /**
      * Set typical {@link ImageView} properties: a fixed width and the
@@ -473,5 +470,20 @@ public class SettingsController {
     protected void setClosed() {
         this.stopAcquisition();
     }
+    
+    
+    @FXML
+    void voiceCommands(ActionEvent event){
+        Voice listen = new Voice();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }

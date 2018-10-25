@@ -48,6 +48,7 @@
 				<Insets bottom="25" left="25" right="25" top="25" />
 			</padding>
 			<Button fx:id="cameraButton" alignment="center" onAction="#startCamera" text="Start camera" />
+         <Button fx:id="speechRecognition" mnemonicParsing="false" onAction="#voiceCommands" text="Start Voice Commands" />
 			<Separator />
          <Button fx:id="Continue" mnemonicParsing="false" onAction="#openHome" text="Continue" />
          <Separator prefWidth="200.0" />
