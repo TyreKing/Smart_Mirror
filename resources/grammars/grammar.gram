@@ -1,0 +1,18 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar 
+ */
+
+grammar grammar;
+
+
+public <number> = ( zero | one | two | three | four | five | six | seven | nine | ten
+                   | eleven | twelve | thirteen | fourteen | fifteen | sixteen | seventeen | eighteen | nineteen | twenty 
+                   | thirty | forty | fifty | sixty | seventy | eighty | ninety |
+		            hundred | thousand | million | billion)+;   
+		            
+public <command> =(mirror select | mirror choose | mirror right | mirror left | mirror stop listening
+					| mirror up | mirror down | mirror open twitter | mirror write tweet | mirror send tweet | mirror post tweet | mirror cancel | mirror confirm | mirror sleep
+					| mirror mirror);			                          
+public <syntax> = <number>{1} (plus | minus | multiply | division){1} <number>{1}; 
