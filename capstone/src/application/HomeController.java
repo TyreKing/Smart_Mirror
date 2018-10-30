@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import twitter4j.TwitterException;
 import twitteraApp.Permissions;
@@ -60,15 +61,28 @@ public class HomeController {
     private TextField tweetTextField;
     @FXML
     public Label showCommand;
-    
+
+    @FXML
+    private HBox mediaChoiceBox;
+
+    @FXML
+    private Label mediaLabel;
+
+    @FXML
+    private Button viewPostButton;
+
+    @FXML
+    private Button writePostButton;
+
     List<ImageView> pics = new ArrayList<>();
-   
-    private int position=0;
-    private boolean twitterActivated=false;
+    List<Button> viewPost = new ArrayList<>();
 
-    
+    private int position = 0;
+    private int mediaPosition = 0;
+    private boolean twitterActivated = false;
+    private boolean mediaTab=false;
 
-    public  HomeController getController() {
+    public HomeController getController() {
         pics.add(exit);
         pics.add(weatherIcon);
         pics.add(timeDateIcon);
@@ -77,122 +91,156 @@ public class HomeController {
         pics.add(youtubeIcon);
         pics.add(googleCalendarIcon);
         pics.add(settingsIcon);
-        
+
+        viewPost.add(viewPostButton);
+        viewPost.add(writePostButton);
+
         return this;
     }
-    
 
-    //All animations are to be placed in its own class
+    // All animations are to be placed in its own class
     public void fadein(Label label) {
-        FadeTransition ft = new FadeTransition(Duration.millis(3000),label);
-        ft.setFromValue(0.1);
+        FadeTransition ft = new FadeTransition(Duration.millis(1500), label);
+        ft.setFromValue(0);
         ft.setToValue(1.0);
-       // ft.setCycleCount(Timeline.INDEFINITE);
-        ft.setAutoReverse(false);
+        ft.setCycleCount(2);
+        ft.setAutoReverse(true);
         ft.play();
     }
+
     public void fadeout(Label label) {
-        FadeTransition ft = new FadeTransition(Duration.millis(3000),label);
-        ft.setFromValue(0.1);
-        ft.setToValue(1.0);
-       // ft.setCycleCount(Timeline.INDEFINITE);
-        ft.setAutoReverse(false);
+        FadeTransition ft = new FadeTransition(Duration.millis(1500), label);
+        ft.setFromValue(1.0);
+        ft.setToValue(0);
+        ft.setCycleCount(2);
+        ft.setAutoReverse(true);
         ft.play();
     }
-    //End of animations
-    
-    public void highlighted(String move) throws MalformedURLException, TwitterException {
-        
+    // End of animations
 
+    public void highlighted(String move)
+            throws MalformedURLException, TwitterException {
 
-        if(move.equals("left")) {
-            showCommand.setVisible(true);
-           Platform.runLater(()->showCommand.setText("LEFT"));
-            Platform.runLater(()->fadein(showCommand));
-            prev();
-            
+        if (move.equals("left")) {
+            // if no other feature is activated
+            if (!twitterActivated) {
+                Platform.runLater(() -> showCommand.setText("LEFT"));
+                showCommand.setVisible(true);
+                Platform.runLater(() -> fadein(showCommand));
+                prev();
+            }
+            if (twitterActivated) {
+                Platform.runLater(()-> nextbutton());
+            }
         }
         if (move.equals("right")) {
-            
-            Platform.runLater(()-> showCommand.setText("RIGHT"));
-            next();
-            
+            if (!twitterActivated) {
+                Platform.runLater(() -> showCommand.setText("RIGHT"));
+                showCommand.setVisible(true);
+                Platform.runLater(() -> fadein(showCommand));
+                next();
+            }
+
+        }
+        if (move.equals("up")) {
+            if(mediaTab==true) {
+                selectedMediaTab();
+            }else {
+                selected();
+            }
             
         }
-        if(move.equals("up")) {          
-            selected();
-        }
-        if(move.equals("down")) {
+        if (move.equals("down")) {
             complete();
         }
-        
-        
-    }
-    
 
-    
+    }
+
     private void complete() throws TwitterException {
         if (twitterActivated) {
-            twitterActivated=false;
+            twitterActivated = false;
+            
+            Platform.runLater(() -> mediaChoiceBox.setVisible(false));       
+             mediaLabel.setVisible(false);
+             mediaTab=false;
+             
             tweetLabel.setVisible(false);
-           tweetTextField.setOpacity(0);
-            
-           
-            
+            tweetTextField.setOpacity(0);
+
             Permissions tweet = new Permissions(tweetTextField.getText());
+
+            Platform.runLater(() -> showCommand.setText("Tweet [ " + tweetTextField.getText()
+            + " ] was sucessfully sent out."));
             
-            
-            System.out.println("Tweet [ " +tweetTextField.getText()+" ] was sucessfully sent out.");
-           
-            
+            System.out.println("Tweet [ " + tweetTextField.getText()
+                    + " ] was sucessfully sent out.");
+
         }
-        
+
     }
-
-
+    
+    private void selectedMediaTab() {
+        if (viewPost.get(mediaPosition).equals(writePostButton)) {
+            tweetLabel.setVisible(true);
+             tweetTextField.setOpacity(1);
+        }
+    }
 
     private void selected() {
-        if(pics.get(position).equals(twitterIcon)) {
-            
-            twitterActivated=true;
-            tweetLabel.setVisible(true);
-            tweetTextField.setOpacity(1);
+        if (pics.get(position).equals(twitterIcon)) {
+            twitterActivated = true;
+            Platform.runLater(() -> mediaLabel.setText("Twitter"));
+            Platform.runLater(() -> mediaChoiceBox.setVisible(true));
+            mediaTab=true;
+            /// tweetLabel.setVisible(true);
+            // tweetTextField.setOpacity(1);
         }
-        
     }
 
+    private void nextbutton() {
+        if (viewPost.get(mediaPosition).equals(viewPostButton)) {
+            viewPost.get(mediaPosition).setOpacity(.5);
+            mediaPosition++;
+            viewPost.get(mediaPosition).setOpacity(1);
+            
+        }else {
+            viewPost.get(mediaPosition).setOpacity(.5);
+            mediaPosition--;
+            viewPost.get(mediaPosition).setOpacity(1);
+        }
 
+        
+
+    }
 
     private void next() {
-        if(position == pics.size()) {
+        if (position == pics.size()) {
             pics.get(position).setOpacity(.5);
             position = 0;
             pics.get(position).setOpacity(1);
-            
-        }else {
+
+        }
+        else {
             position++;
             pics.get(position).setOpacity(1);
-            pics.get(position-1).setOpacity(.5);
-            
+            pics.get(position - 1).setOpacity(.5);
+
         }
     }
-    
+
     private void prev() {
-        if(position==0) {
+        if (position == 0) {
             pics.get(position).setOpacity(.5);
-            position=pics.size();
+            position = pics.size();
             pics.get(position).setOpacity(1);
-            
-        }else {
+
+        }
+        else {
             position--;
             pics.get(position).setOpacity(1);
-            pics.get(position+1).setOpacity(.5);
+            pics.get(position + 1).setOpacity(.5);
         }
-        
-    }
-    
-     
-    
 
-   
+    }
+
 }
