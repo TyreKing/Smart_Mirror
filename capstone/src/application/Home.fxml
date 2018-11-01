@@ -12,15 +12,14 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
    <bottom>
-      <HBox prefHeight="27.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="54.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="100.0" prefWidth="185.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="45.0" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace;" text="12:00" />
-                  <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="177.0" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace;" text="MONDAY OCTOBER 21, 2018" />
+                  <Label fx:id="timeDate" layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="185.0" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace;" text="Time" />
                </children>
             </VBox>
-            <HBox fx:id="mediaChoiceBox" prefHeight="30.0" prefWidth="415.0" style="visibility: false;">
+            <HBox fx:id="mediaChoiceBox" prefHeight="28.0" prefWidth="348.0" style="visibility: false;" translateX="60.0">
                <children>
                   <Label fx:id="mediaLabel" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 2em;" text="Media" />
                   <Button fx:id="viewPostButton" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to left, #ff7f50, #6a5acd); -fx-text-fill: white;" text="View Post" translateX="180.0" />
@@ -41,17 +40,17 @@
                   <Insets />
                </HBox.margin>
             </ImageView>
-            <ImageView fx:id="exit" fitHeight="89.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 460;">
-               <image>
-                  <Image url="@../icons/icons8-delete-64.png" />
-               </image>
-            </ImageView>
          </children>
       </HBox>
    </top>
    <right>
       <VBox prefHeight="499.0" prefWidth="0.0" BorderPane.alignment="CENTER">
          <children>
+            <ImageView fx:id="exit" fitHeight="89.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true" translateY="-65.0">
+               <image>
+                  <Image url="@../icons/icons8-delete-64.png" />
+               </image>
+            </ImageView>
             <ImageView fx:id="weatherIcon" fitHeight="58.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-partly-cloudy-day-64.png" />
