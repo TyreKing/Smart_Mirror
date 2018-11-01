@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ import edu.cmu.sphinx.linguist.acoustic.tiedstate.HTK.Lab;
 
 import javax.sound.sampled.TargetDataLine;
 
+import org.json.JSONException;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -27,9 +30,12 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import twitter4j.TwitterException;
 import twitteraApp.Permissions;
+import weatherApp.WeatherClass;
 
 public class HomeController {
 
+    @FXML
+    private Label timeDate;
     @FXML
     private ImageView exit;
 
@@ -80,9 +86,13 @@ public class HomeController {
     private int position = 0;
     private int mediaPosition = 0;
     private boolean twitterActivated = false;
-    private boolean mediaTab=false;
+    private boolean weatherActivated = false;
+    private boolean timeDateActivted = false;
+    private boolean mediaTab = false;
+    private WeatherClass weather;
 
-    public HomeController getController() {
+    public HomeController getController() throws IOException, JSONException {
+
         pics.add(exit);
         pics.add(weatherIcon);
         pics.add(timeDateIcon);
@@ -95,6 +105,8 @@ public class HomeController {
         viewPost.add(viewPostButton);
         viewPost.add(writePostButton);
 
+        weather = new WeatherClass("Newport News",
+                System.getenv("weatherKey"));
         return this;
     }
 
@@ -118,20 +130,20 @@ public class HomeController {
     }
     // End of animations
 
-    public void highlighted(String move)
-            throws MalformedURLException, TwitterException {
+    public void highlighted(String move) throws TwitterException, IOException, JSONException {
 
         if (move.equals("left")) {
             // if no other feature is activated
-            if (!twitterActivated) {
+            if (!twitterActivated && !weatherActivated) {
                 Platform.runLater(() -> showCommand.setText("LEFT"));
                 showCommand.setVisible(true);
                 Platform.runLater(() -> fadein(showCommand));
                 prev();
             }
             if (twitterActivated) {
-                Platform.runLater(()-> nextbutton());
+                Platform.runLater(() -> nextbutton());
             }
+
         }
         if (move.equals("right")) {
             if (!twitterActivated) {
@@ -143,12 +155,13 @@ public class HomeController {
 
         }
         if (move.equals("up")) {
-            if(mediaTab==true) {
+            if (mediaTab == true) {
                 selectedMediaTab();
-            }else {
+            }
+            else {
                 selected();
             }
-            
+
         }
         if (move.equals("down")) {
             complete();
@@ -159,42 +172,53 @@ public class HomeController {
     private void complete() throws TwitterException {
         if (twitterActivated) {
             twitterActivated = false;
-            
-            Platform.runLater(() -> mediaChoiceBox.setVisible(false));       
-             mediaLabel.setVisible(false);
-             mediaTab=false;
-             
+
+            Platform.runLater(() -> mediaChoiceBox.setVisible(false));
+            mediaLabel.setVisible(false);
+            mediaTab = false;
+
             tweetLabel.setVisible(false);
             tweetTextField.setOpacity(0);
 
             Permissions tweet = new Permissions(tweetTextField.getText());
 
-            Platform.runLater(() -> showCommand.setText("Tweet [ " + tweetTextField.getText()
-            + " ] was sucessfully sent out."));
-            
+            Platform.runLater(() -> showCommand.setText("SENT"));
+            showCommand.setVisible(true);
+            Platform.runLater(() -> fadein(showCommand));
+
             System.out.println("Tweet [ " + tweetTextField.getText()
                     + " ] was sucessfully sent out.");
 
         }
 
     }
-    
+
     private void selectedMediaTab() {
         if (viewPost.get(mediaPosition).equals(writePostButton)) {
             tweetLabel.setVisible(true);
-             tweetTextField.setOpacity(1);
+            tweetTextField.setOpacity(1);
+        }
+        else {
+            // TODO create UI for viewing user posts
         }
     }
 
-    private void selected() {
+    private void selected() throws IOException, JSONException {
         if (pics.get(position).equals(twitterIcon)) {
             twitterActivated = true;
             Platform.runLater(() -> mediaLabel.setText("Twitter"));
             Platform.runLater(() -> mediaChoiceBox.setVisible(true));
-            mediaTab=true;
-            /// tweetLabel.setVisible(true);
-            // tweetTextField.setOpacity(1);
+            mediaTab = true;
         }
+        if (pics.get(position).equals(timeDateIcon)) {
+            showTime();
+        }
+    }
+
+    private void showTime() throws IOException, JSONException {
+        timeDateActivted = true;        
+        Platform.runLater(
+                () -> timeDate.setText(weather.getTime().toString()));
     }
 
     private void nextbutton() {
@@ -202,14 +226,13 @@ public class HomeController {
             viewPost.get(mediaPosition).setOpacity(.5);
             mediaPosition++;
             viewPost.get(mediaPosition).setOpacity(1);
-            
-        }else {
+
+        }
+        else {
             viewPost.get(mediaPosition).setOpacity(.5);
             mediaPosition--;
             viewPost.get(mediaPosition).setOpacity(1);
         }
-
-        
 
     }
 

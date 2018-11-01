@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -17,6 +19,7 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
 import it.polito.elite.teaching.cv.utils.Utils;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -111,13 +114,13 @@ public class SettingsController {
 
     // property for object binding
     private ObjectProperty<String> hsvValuesProp;
-
+    
     // This will launch the actual program over the setting window
     @FXML
     void openHome(ActionEvent event) {
 
+        
         try {
-
             Stage stage = new Stage();
 
             FXMLLoader loader = new FXMLLoader(
@@ -317,10 +320,11 @@ public class SettingsController {
      *            objects contours
      * @return the {@link Mat} image with the objects contours framed
      * @throws TwitterException
-     * @throws MalformedURLException
+     * @throws JSONException 
+     * @throws IOException 
      */
     private Mat findAndDrawBalls(Mat maskedImage, Mat frame)
-            throws MalformedURLException, TwitterException {
+            throws TwitterException, IOException, JSONException {
         // init
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
@@ -355,6 +359,7 @@ public class SettingsController {
                         // sends data to HomeController to control movement
 
                         homeController.getController().highlighted("left");
+                        
                         System.out.println("left");
                     }
                     if (right) {
@@ -365,7 +370,7 @@ public class SettingsController {
 
                 }
 
-                if (upDownMvmt.size() > 20) {
+                if (upDownMvmt.size() > 12) {
                     up = rightUpMvmt(upDownMvmt);
                     down = leftDownMvmt(upDownMvmt);
                     upDownMvmt.clear();
@@ -474,7 +479,8 @@ public class SettingsController {
     
     @FXML
     void voiceCommands(ActionEvent event){
-        Voice listen = new Voice();
+       // Voice listen = new Voice();
+        //Platform.runLater(()->Voice listen = new Voice());
     }
     
     
