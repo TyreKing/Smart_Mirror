@@ -5,6 +5,7 @@ import java.awt.image.DataBufferByte;
 
 import org.opencv.core.Mat;
 
+import application.HomeController;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.embed.swing.SwingFXUtils;
@@ -57,6 +58,8 @@ public final class Utils
 			property.set(value);
 		});
 	}
+
+    
 	
 	/**
 	 * Support for the {@link mat2image()} method
