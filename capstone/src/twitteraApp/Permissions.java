@@ -3,9 +3,11 @@ package twitteraApp;
 
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.restfb.types.Payment.Item;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -25,13 +27,13 @@ public class Permissions {
 //       String tweeted = createTweet("test 2");
 //       System.out.println(tweeted);
 //    }
-    
-    public Permissions(String tw) throws TwitterException{
-        String tweeted = createTweet(tw);
-        System.out.println(tweeted);
-        
-         
-    }
+//    
+//    public Permissions(String tw) throws TwitterException{
+//        String tweeted = createTweet(tw);
+//        System.out.println(tweeted);
+//        
+//         
+//    }
 
     public String createTweet(String tweet) throws TwitterException {
         Twitter twitter = getTwitterinstance();
@@ -40,22 +42,29 @@ public class Permissions {
     }
 
  
+    public String getScreenName() throws TwitterException{
+        Twitter twitter = getTwitterinstance();
+        twitter.getHomeTimeline().stream().map(item -> item.getCreatedAt()).collect(Collectors.toList());
+        return twitter.getScreenName();
+    }
+    
+    public List<Date> getTweetTime() throws TwitterException{
+        Twitter twitter = getTwitterinstance();
+       return twitter.getHomeTimeline().stream().map(item -> item.getCreatedAt()).collect(Collectors.toList());
+        
+    }
    
     public List<String> getTimeLine() throws TwitterException {
         Twitter twitter = getTwitterinstance();
-         
+        
         return twitter.getHomeTimeline().stream()
           .map(item -> item.getText())
           .collect(Collectors.toList());
     }
+    
+    
 
-//    public Image getUserPic() throws TwitterException, MalformedURLException{
-//        Twitter twitter = getTwitterinstance();
-//        User user = twitter.showUser(twitter.getId());
-//        Image image = new Image(user.getProfileImageURL());
-//        return image;
-//    }
-//   
+
        
            private Twitter getTwitterinstance() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
