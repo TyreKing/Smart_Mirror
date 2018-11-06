@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sound.sampled.AudioFormat;
@@ -27,12 +28,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import twitter4j.TwitterException;
 import twitteraApp.Permissions;
 import weatherApp.WeatherClass;
 
-public class HomeController {
+public class HomeController { 
 
     @FXML
     private Label timeDate;
@@ -79,7 +81,25 @@ public class HomeController {
 
     @FXML
     private Button writePostButton;
+    @FXML
+    private Label tweetOne;
 
+    @FXML
+    private Label tweetTwo;
+
+    @FXML
+    private Label tweetThree;
+
+    @FXML
+    private Label TweetFour;
+
+    @FXML
+    private Label tweetFive;
+
+    @FXML
+    private VBox timeLineContainer;
+    
+    
     List<ImageView> pics = new ArrayList<>();
     List<Button> viewPost = new ArrayList<>();
 
@@ -102,6 +122,7 @@ public class HomeController {
         pics.add(googleCalendarIcon);
         pics.add(settingsIcon);
 
+       
         viewPost.add(viewPostButton);
         viewPost.add(writePostButton);
 
@@ -120,22 +141,22 @@ public class HomeController {
         ft.play();
     }
 
-    public void fadeout(Label label) {
-        FadeTransition ft = new FadeTransition(Duration.millis(1500), label);
-        ft.setFromValue(1.0);
-        ft.setToValue(0);
-        ft.setCycleCount(2);
-        ft.setAutoReverse(true);
-        ft.play();
-    }
+//    public void fadeout(Label label) {
+//        FadeTransition ft = new FadeTransition(Duration.millis(1500), label);
+//        ft.setFromValue(1.0);
+//        ft.setToValue(0);
+//        ft.setCycleCount(2);
+//        ft.setAutoReverse(true);
+//        ft.play();
+//    }
     // End of animations
 
     public void highlighted(String move) throws TwitterException, IOException, JSONException {
 
-        if (move.equals("left")) {
+        if (move.equals("left")||move.equals("mirror left")||move.equals("mirror up")) {
             // if no other feature is activated
-            if (!twitterActivated && !weatherActivated) {
-                Platform.runLater(() -> showCommand.setText("LEFT"));
+            if (!twitterActivated && !weatherActivated) {           
+                Platform.runLater(() -> showCommand.setText(move));
                 showCommand.setVisible(true);
                 Platform.runLater(() -> fadein(showCommand));
                 prev();
@@ -145,16 +166,19 @@ public class HomeController {
             }
 
         }
-        if (move.equals("right")) {
+        if (move.equals("right")||move.equals("mirror right")|| move.equals("mirror down")) {
             if (!twitterActivated) {
-                Platform.runLater(() -> showCommand.setText("RIGHT"));
+                Platform.runLater(() -> showCommand.setText(move));
                 showCommand.setVisible(true);
                 Platform.runLater(() -> fadein(showCommand));
                 next();
             }
+            if (twitterActivated) {
+                Platform.runLater(() -> nextbutton());
+            }
 
         }
-        if (move.equals("up")) {
+        if (move.equals("up")||move.equals("mirror select")) {
             if (mediaTab == true) {
                 selectedMediaTab();
             }
@@ -163,8 +187,11 @@ public class HomeController {
             }
 
         }
-        if (move.equals("down")) {
+        if (move.equals("down")|| move.equals("mirror confirm")) {
             complete();
+        }
+        if(move.equals("mirror cancel")) {
+            cancel();
         }
 
     }
@@ -180,7 +207,8 @@ public class HomeController {
             tweetLabel.setVisible(false);
             tweetTextField.setOpacity(0);
 
-            Permissions tweet = new Permissions(tweetTextField.getText());
+           //new Permissions(tweetTextField.getText());
+            new Permissions().createTweet(tweetTextField.getText());
 
             Platform.runLater(() -> showCommand.setText("SENT"));
             showCommand.setVisible(true);
@@ -193,13 +221,17 @@ public class HomeController {
 
     }
 
-    private void selectedMediaTab() {
+    private void selectedMediaTab() throws TwitterException {
         if (viewPost.get(mediaPosition).equals(writePostButton)) {
             tweetLabel.setVisible(true);
             tweetTextField.setOpacity(1);
         }
         else {
-            // TODO create UI for viewing user posts
+            List<Date> time =new Permissions().getTweetTime();
+            System.out.println(time.get(0));
+            //System.out.println(new Permissions().getScreenName());
+            //List<String> post= new Permissions().getTimeLine();
+            //System.out.println(post.get(0));
         }
     }
 
@@ -237,16 +269,19 @@ public class HomeController {
     }
 
     private void next() {
-        if (position == pics.size()) {
+        if (position == 7) {
             pics.get(position).setOpacity(.5);
             position = 0;
             pics.get(position).setOpacity(1);
+            System.out.println(position);
 
         }
         else {
             position++;
             pics.get(position).setOpacity(1);
             pics.get(position - 1).setOpacity(.5);
+            System.out.println(position);
+
 
         }
     }
@@ -254,16 +289,51 @@ public class HomeController {
     private void prev() {
         if (position == 0) {
             pics.get(position).setOpacity(.5);
-            position = pics.size();
+            position = 7;
             pics.get(position).setOpacity(1);
+            System.out.println(position);
+
 
         }
         else {
             position--;
             pics.get(position).setOpacity(1);
             pics.get(position + 1).setOpacity(.5);
+            System.out.println(position);
+
         }
 
+    }
+    
+    private void cancel() {
+        // create command mirror cancel
+        // call cancel, sets all values back to default and closes everything in the running application. 
+        twitterActivated = false;
+        
+        //position counter set to beginning
+        position=0;
+        //Icon value reset to beginning
+        for(int i=0; i<8; i++) {
+            pics.get(i).setOpacity(.5);
+        }
+        pics.get(position).setOpacity(1);
+        
+        //clear text field
+        tweetTextField.clear();
+        
+        //close everything
+        Platform.runLater(() -> mediaChoiceBox.setVisible(false));
+        mediaLabel.setVisible(false);
+        mediaTab = false;
+
+        tweetLabel.setVisible(false);
+        tweetTextField.setOpacity(0);
+        
+       
+        
+        
+        
+        
     }
 
 }
