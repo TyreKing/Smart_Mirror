@@ -479,8 +479,8 @@ public class SettingsController {
     
     @FXML
     void voiceCommands(ActionEvent event){
-       // Voice listen = new Voice();
-        //Platform.runLater(()->Voice listen = new Voice());
+      
+    Platform.runLater(()-> new Voice(homeController));
     }
     
     
