@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import twitter4j.TwitterException;
 import twitteraApp.Permissions;
@@ -98,7 +99,18 @@ public class HomeController {
 
     @FXML
     private VBox timeLineContainer;
-    
+
+    @FXML
+    private ImageView dailyWeatherIcon;
+
+    @FXML
+    private Text temp;
+
+    @FXML
+    private Text chanceOfRain;
+
+    @FXML
+    private Text highTemp;
     
     List<ImageView> pics = new ArrayList<>();
     List<Button> viewPost = new ArrayList<>();
@@ -153,6 +165,7 @@ public class HomeController {
 
     public void highlighted(String move) throws TwitterException, IOException, JSONException {
 
+        
         if (move.equals("left")||move.equals("mirror left")||move.equals("mirror up")) {
             // if no other feature is activated
             if (!twitterActivated && !weatherActivated) {           
@@ -167,6 +180,7 @@ public class HomeController {
 
         }
         if (move.equals("right")||move.equals("mirror right")|| move.equals("mirror down")) {
+            
             if (!twitterActivated) {
                 Platform.runLater(() -> showCommand.setText(move));
                 showCommand.setVisible(true);
@@ -203,7 +217,7 @@ public class HomeController {
             Platform.runLater(() -> mediaChoiceBox.setVisible(false));
             mediaLabel.setVisible(false);
             mediaTab = false;
-
+            
             tweetLabel.setVisible(false);
             tweetTextField.setOpacity(0);
 
@@ -216,7 +230,7 @@ public class HomeController {
 
             System.out.println("Tweet [ " + tweetTextField.getText()
                     + " ] was sucessfully sent out.");
-
+            tweetTextField.clear();
         }
 
     }
@@ -227,11 +241,30 @@ public class HomeController {
             tweetTextField.setOpacity(1);
         }
         else {
-            List<Date> time =new Permissions().getTweetTime();
-            System.out.println(time.get(0));
-            //System.out.println(new Permissions().getScreenName());
-            //List<String> post= new Permissions().getTimeLine();
-            //System.out.println(post.get(0));
+            Platform.runLater(()-> timeLineContainer.setVisible(true));
+            List<Date> time =new Permissions().getTweetTime();           
+            List<String> post= new Permissions().getTimeLine();          
+           Platform.runLater(()-> {
+            try {
+                tweetOne.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(0)+"\r\n"+time.get(0));
+                tweetTwo.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(1)+"\r\n"+time.get(1));
+                tweetThree.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(2)+"\r\n"+time.get(2));                
+            }
+            catch (TwitterException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+           Platform.runLater(()-> {
+               try {                 
+                   TweetFour.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(3)+"\r\n"+time.get(3));
+                   tweetFive.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(4)+"\r\n"+time.get(4));
+               }
+               catch (TwitterException e) {
+                   // TODO Auto-generated catch block
+                   e.printStackTrace();
+               }
+           });
         }
     }
 
@@ -243,11 +276,22 @@ public class HomeController {
             mediaTab = true;
         }
         if (pics.get(position).equals(timeDateIcon)) {
-            showTime();
+            showTime();          
         }
     }
 
     private void showTime() throws IOException, JSONException {
+        if (!timeDateActivted) {
+            Platform.runLater(
+                    () -> timeDate.setText(weather.getTime().toString()));
+            Platform.runLater(
+                    () -> timeDate.setVisible(true));
+            timeDateActivted=true;
+        }else {
+            Platform.runLater(
+                    () -> timeDate.setVisible(false));
+        }
+        
         timeDateActivted = true;        
         Platform.runLater(
                 () -> timeDate.setText(weather.getTime().toString()));
@@ -305,7 +349,7 @@ public class HomeController {
 
     }
     
-    private void cancel() {
+    public void cancel() {
         // create command mirror cancel
         // call cancel, sets all values back to default and closes everything in the running application. 
         twitterActivated = false;
@@ -313,7 +357,7 @@ public class HomeController {
         //position counter set to beginning
         position=0;
         //Icon value reset to beginning
-        for(int i=0; i<8; i++) {
+        for(int i=0; i<7; i++) {
             pics.get(i).setOpacity(.5);
         }
         pics.get(position).setOpacity(1);
@@ -328,8 +372,10 @@ public class HomeController {
 
         tweetLabel.setVisible(false);
         tweetTextField.setOpacity(0);
+        Platform.runLater(()->timeLineContainer.setVisible(false));
+        viewPost.get(0).setOpacity(.5);
+        viewPost.get(1).setOpacity(.5);
         
-       
         
         
         
