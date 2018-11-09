@@ -54,7 +54,7 @@ public class HomeController {
     private ImageView timeDateIcon;
 
     @FXML
-    private ImageView facebookicon;
+    private ImageView facebookIcon;
 
     @FXML
     private ImageView twitterIcon;
@@ -128,7 +128,7 @@ public class HomeController {
         pics.add(exit);
         pics.add(weatherIcon);
         pics.add(timeDateIcon);
-        pics.add(facebookicon);
+        pics.add(facebookIcon);
         pics.add(twitterIcon);
         pics.add(youtubeIcon);
         pics.add(googleCalendarIcon);
@@ -153,15 +153,6 @@ public class HomeController {
         ft.play();
     }
 
-//    public void fadeout(Label label) {
-//        FadeTransition ft = new FadeTransition(Duration.millis(1500), label);
-//        ft.setFromValue(1.0);
-//        ft.setToValue(0);
-//        ft.setCycleCount(2);
-//        ft.setAutoReverse(true);
-//        ft.play();
-//    }
-    // End of animations
 
     public void highlighted(String move) throws TwitterException, IOException, JSONException {
 
@@ -207,7 +198,6 @@ public class HomeController {
         if(move.equals("mirror cancel")) {
             cancel();
         }
-
     }
 
     private void complete() throws TwitterException {
@@ -278,8 +268,16 @@ public class HomeController {
         if (pics.get(position).equals(timeDateIcon)) {
             showTime();          
         }
+        if (pics.get(position).equals(weatherIcon)) {
+            showWeather();
+        }
     }
 
+    private void showWeather() {
+        if (!weatherActivated) {
+            
+        }
+    }
     private void showTime() throws IOException, JSONException {
         if (!timeDateActivted) {
             Platform.runLater(
@@ -313,27 +311,24 @@ public class HomeController {
     }
 
     private void next() {
-        if (position == 7) {
+        if (position == pics.size()) {
             pics.get(position).setOpacity(.5);
             position = 0;
             pics.get(position).setOpacity(1);
             System.out.println(position);
-
         }
         else {
             position++;
             pics.get(position).setOpacity(1);
             pics.get(position - 1).setOpacity(.5);
             System.out.println(position);
-
-
         }
     }
 
     private void prev() {
         if (position == 0) {
             pics.get(position).setOpacity(.5);
-            position = 7;
+            position = pics.size()-1;
             pics.get(position).setOpacity(1);
             System.out.println(position);
 
@@ -341,7 +336,8 @@ public class HomeController {
         }
         else {
             position--;
-            pics.get(position).setOpacity(1);
+            System.out.println(position);
+           Platform.runLater(()-> pics.get(position).setOpacity(1));
             pics.get(position + 1).setOpacity(.5);
             System.out.println(position);
 
@@ -349,17 +345,17 @@ public class HomeController {
 
     }
     
-    public void cancel() {
+    public void cancel() throws IOException, JSONException {
         // create command mirror cancel
         // call cancel, sets all values back to default and closes everything in the running application. 
         twitterActivated = false;
         
+      //Icon value reset to beginning    
+        pics.get(position).setOpacity(.5);
         //position counter set to beginning
         position=0;
-        //Icon value reset to beginning
-        for(int i=0; i<7; i++) {
-            pics.get(i).setOpacity(.5);
-        }
+        pics.get(position).setOpacity(.5);
+
         pics.get(position).setOpacity(1);
         
         //clear text field
@@ -376,7 +372,9 @@ public class HomeController {
         viewPost.get(0).setOpacity(.5);
         viewPost.get(1).setOpacity(.5);
         
-        
+        //resets time and date
+        timeDateActivted = true;
+        showTime();
         
         
         

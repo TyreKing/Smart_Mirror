@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
    <top>
@@ -44,7 +45,7 @@
                   <Image url="@../icons/icons8-schedule-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="facebookicon" fitHeight="44.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
+            <ImageView fx:id="facebookIcon" fitHeight="44.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-facebook-64.png" />
                </image>
@@ -59,7 +60,7 @@
                   <Image url="@../icons/icons8-play-button-64.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="googleCalendar" fitHeight="81.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
+            <ImageView fx:id="googleCalendarIcon" fitHeight="81.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: .5;">
                <image>
                   <Image url="@../icons/icons8-google-64.png" />
                </image>
@@ -90,15 +91,23 @@
                   <Button fx:id="writePostButton" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #ff7f50, #6a5acd); -fx-text-fill: white;" text="Write Post" />
                </children>
             </HBox>
-            <VBox fx:id="timeLineContainer" layoutX="14.0" layoutY="199.0" prefHeight="401.0" prefWidth="341.0">
+            <VBox fx:id="timeLineContainer" layoutX="14.0" layoutY="199.0" prefHeight="401.0" prefWidth="312.0" style="visibility: false;">
                <children>
-                  <Label fx:id="tweetOne" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #5B33FF; -fx-opacity: 1;" text="tweet 1" />
-                  <Label fx:id="tweetTwo" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #5330E3; -fx-opacity: .8;" text="tweet 2" />
-                  <Label fx:id="tweetThree" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #4D2DD2; -fx-opacity: .6;" text="tweet 3" />
-                  <Label fx:id="TweetFour" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #4629BF; -fx-opacity: .4;" text="tweet 4" />
-                  <Label fx:id="tweetFive" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #3B239C; -fx-opacity: .2;" text="tweet 5" />
+                  <Label fx:id="tweetOne" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #5B33FF; -fx-text-fill: white; -fx-opacity: 1;" text="tweet 1">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <Label fx:id="tweetTwo" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #5330E3; -fx-opacity: .8; -fx-text-fill: white;" text="tweet 2" />
+                  <Label fx:id="tweetThree" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #4D2DD2; -fx-opacity: .6; -fx-text-fill: white;" text="tweet 3" />
+                  <Label fx:id="TweetFour" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #4629BF; -fx-opacity: .4; -fx-text-fill: white;" text="tweet 4" />
+                  <Label fx:id="tweetFive" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #3B239C; -fx-opacity: .2; -fx-text-fill: white;" text="tweet 5" />
                </children>
             </VBox>
+            <ImageView fx:id="dailyWeatherIcon" fitHeight="150.0" fitWidth="200.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="temp" layoutX="37.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="70 Degrees" wrappingWidth="99.13671875" />
+            <Text fx:id="chanceOfRain" layoutX="37.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="0%  chance of rain" wrappingWidth="99.13671875" />
+            <Text fx:id="highTemp" layoutX="37.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="87 high" wrappingWidth="44.13671875" />
          </children>
       </AnchorPane>
    </center>
