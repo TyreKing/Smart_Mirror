@@ -11,25 +11,42 @@ import net.aksingh.owmjapis.CurrentWeather;
 import net.aksingh.owmjapis.OpenWeatherMap;
 
 public class WeatherClass {
-    
-    private CurrentWeather currentWeather;
-    
-    public WeatherClass(String city, String key) throws IOException, JSONException {
-        
-    
-        OpenWeatherMap owm =new OpenWeatherMap(key);
-        currentWeather = owm.currentWeatherByCityName(city);
-        
-    }
-    
 
-    
+    private CurrentWeather currentWeather;
+
+    public WeatherClass(String city, String key)
+            throws IOException, JSONException {
+
+        OpenWeatherMap owm = new OpenWeatherMap(key);
+        currentWeather = owm.currentWeatherByCityName(city);
+
+    }
+
     public Date getTime() {
         // TODO Auto-generated method stub
-    
+
         return this.currentWeather.getDateTime();
-        
+
     }
 
+    public double getTemp() {
+        return this.currentWeather.getMainInstance().getTemperature();
+    }
+
+    
+    public String getCity() {
+        return this.currentWeather.getCityName();
+    }
+    
+    
+    public double getRain() {
+        return this.currentWeather.getRainInstance().getRain();
+    }
+    
+    
+    public double getTempHigh() {        
+        return this.currentWeather.getMainInstance().getMaxTemperature();
+    }
+    
 
 }
