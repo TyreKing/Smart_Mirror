@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="600.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomeController">
    <top>
@@ -73,7 +74,7 @@
          </children>
       </VBox>
    </right>
-   <center>
+   <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="showCommand" layoutX="99.0" layoutY="199.0" prefHeight="128.0" prefWidth="348.0" style="visibility: false; -fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-alignment: center; -fx-font-size: 4em;" text="ShowCommand">
@@ -104,11 +105,16 @@
                   <Label fx:id="tweetFive" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #3B239C; -fx-opacity: .2; -fx-text-fill: white;" text="tweet 5" />
                </children>
             </VBox>
-            <ImageView fx:id="dailyWeatherIcon" fitHeight="150.0" fitWidth="200.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-            <Text fx:id="temp" layoutX="37.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="70 Degrees" wrappingWidth="99.13671875" />
-            <Text fx:id="chanceOfRain" layoutX="37.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="0%  chance of rain" wrappingWidth="99.13671875" />
-            <Text fx:id="highTemp" layoutX="37.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="87 high" wrappingWidth="44.13671875" />
+            <VBox prefHeight="200.0" prefWidth="100.0" style="visibility: false;">
+               <children>
+                  <ImageView fx:id="dailyWeatherIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="temp" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="70 Degrees" wrappingWidth="99.13671875" />
+                  <Text fx:id="chanceOfRain" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="0%  chance of rain" wrappingWidth="99.13671875" />
+                  <Text fx:id="highTemp" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="87 high" wrappingWidth="44.13671875" />
+               </children>
+            </VBox>
+            <WebView fx:id="youtubeVideoContainer" layoutX="160.0" layoutY="227.0" prefHeight="200.0" prefWidth="264.0" />
          </children>
       </AnchorPane>
-   </center>
+   </left>
 </BorderPane>

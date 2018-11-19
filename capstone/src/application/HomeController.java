@@ -30,10 +30,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import twitter4j.TwitterException;
 import twitteraApp.Permissions;
 import weatherApp.WeatherClass;
+import youtubeApp.youtubeClass;
 
 public class HomeController { 
 
@@ -111,6 +113,9 @@ public class HomeController {
 
     @FXML
     private Text highTemp;
+    
+    @FXML
+    private WebView youtubeVideoContainer;
     
     List<ImageView> pics = new ArrayList<>();
     List<Button> viewPost = new ArrayList<>();
@@ -310,7 +315,7 @@ public class HomeController {
 
     }
 
-    private void next() {
+    private void next() throws IOException {
         if (position == pics.size()) {
             pics.get(position).setOpacity(.5);
             position = 0;
@@ -318,6 +323,7 @@ public class HomeController {
             System.out.println(position);
         }
         else {
+            youtubePlayVideo();
             position++;
             pics.get(position).setOpacity(1);
             pics.get(position - 1).setOpacity(.5);
@@ -375,9 +381,12 @@ public class HomeController {
         //resets time and date
         timeDateActivted = true;
         showTime();
+    }
+    
+    public void youtubePlayVideo() throws IOException {
+        youtubeClass vid = new youtubeClass("calebcity");
         
-        
-        
+        Platform.runLater(()->youtubeVideoContainer.getEngine().load( vid.send));
     }
 
 }
