@@ -1,5 +1,8 @@
 package application;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ import twitteraApp.Permissions;
 import weatherApp.WeatherClass;
 import youtubeApp.youtubeClass;
 
-public class HomeController { 
+public class HomeController {
 
     @FXML
     private Label timeDate;
@@ -113,10 +116,10 @@ public class HomeController {
 
     @FXML
     private Text highTemp;
-    
+
     @FXML
     private WebView youtubeVideoContainer;
-    
+
     List<ImageView> pics = new ArrayList<>();
     List<Button> viewPost = new ArrayList<>();
 
@@ -125,6 +128,7 @@ public class HomeController {
     private boolean twitterActivated = false;
     private boolean weatherActivated = false;
     private boolean timeDateActivted = false;
+    private boolean youtubeActivated = false;
     private boolean mediaTab = false;
     private WeatherClass weather;
 
@@ -139,7 +143,6 @@ public class HomeController {
         pics.add(googleCalendarIcon);
         pics.add(settingsIcon);
 
-       
         viewPost.add(viewPostButton);
         viewPost.add(writePostButton);
 
@@ -158,13 +161,13 @@ public class HomeController {
         ft.play();
     }
 
+    public void highlighted(String move)
+            throws TwitterException, IOException, JSONException, AWTException {
 
-    public void highlighted(String move) throws TwitterException, IOException, JSONException {
-
-        
-        if (move.equals("left")||move.equals("mirror left")||move.equals("mirror up")) {
+        if (move.equals("left") || move.equals("mirror left")
+                || move.equals("mirror up")) {
             // if no other feature is activated
-            if (!twitterActivated && !weatherActivated) {           
+            if (!twitterActivated && !weatherActivated) {
                 Platform.runLater(() -> showCommand.setText(move));
                 showCommand.setVisible(true);
                 Platform.runLater(() -> fadein(showCommand));
@@ -175,8 +178,9 @@ public class HomeController {
             }
 
         }
-        if (move.equals("right")||move.equals("mirror right")|| move.equals("mirror down")) {
-            
+        if (move.equals("right") || move.equals("mirror right")
+                || move.equals("mirror down")) {
+
             if (!twitterActivated) {
                 Platform.runLater(() -> showCommand.setText(move));
                 showCommand.setVisible(true);
@@ -188,7 +192,7 @@ public class HomeController {
             }
 
         }
-        if (move.equals("up")||move.equals("mirror select")) {
+        if (move.equals("up") || move.equals("mirror select")) {
             if (mediaTab == true) {
                 selectedMediaTab();
             }
@@ -197,26 +201,32 @@ public class HomeController {
             }
 
         }
-        if (move.equals("down")|| move.equals("mirror confirm")) {
+        if (move.equals("down") || move.equals("mirror confirm")
+                || move.equals("mirror send")
+                || move.equals("mirror Search")) {
             complete();
         }
-        if(move.equals("mirror cancel")) {
+        if (move.equals("mirror cancel")) {
             cancel();
+        }
+        if(move.equals("mirror play")||move.equals("mirror pause")) {
+            playPause();
         }
     }
 
-    private void complete() throws TwitterException {
+    private void complete()
+            throws TwitterException, IOException, AWTException {
         if (twitterActivated) {
             twitterActivated = false;
 
             Platform.runLater(() -> mediaChoiceBox.setVisible(false));
             mediaLabel.setVisible(false);
             mediaTab = false;
-            
+
             tweetLabel.setVisible(false);
             tweetTextField.setOpacity(0);
 
-           //new Permissions(tweetTextField.getText());
+            // new Permissions(tweetTextField.getText());
             new Permissions().createTweet(tweetTextField.getText());
 
             Platform.runLater(() -> showCommand.setText("SENT"));
@@ -227,39 +237,50 @@ public class HomeController {
                     + " ] was sucessfully sent out.");
             tweetTextField.clear();
         }
+        if (youtubeActivated) {
+            tweetLabel.setVisible(false);
+            tweetTextField.setOpacity(0);
+            youtubeVideoContainer.setOpacity(1);
+            grabVideo();
+        }
 
     }
 
     private void selectedMediaTab() throws TwitterException {
         if (viewPost.get(mediaPosition).equals(writePostButton)) {
-            tweetLabel.setVisible(true);
+            // tweetLabel.setVisible(true);
             tweetTextField.setOpacity(1);
         }
         else {
-            Platform.runLater(()-> timeLineContainer.setVisible(true));
-            List<Date> time =new Permissions().getTweetTime();           
-            List<String> post= new Permissions().getTimeLine();          
-           Platform.runLater(()-> {
-            try {
-                tweetOne.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(0)+"\r\n"+time.get(0));
-                tweetTwo.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(1)+"\r\n"+time.get(1));
-                tweetThree.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(2)+"\r\n"+time.get(2));                
-            }
-            catch (TwitterException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        });
-           Platform.runLater(()-> {
-               try {                 
-                   TweetFour.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(3)+"\r\n"+time.get(3));
-                   tweetFive.setText("@"+new Permissions().getScreenName()+"\r\n"+post.get(4)+"\r\n"+time.get(4));
-               }
-               catch (TwitterException e) {
-                   // TODO Auto-generated catch block
-                   e.printStackTrace();
-               }
-           });
+            Platform.runLater(() -> timeLineContainer.setVisible(true));
+            List<Date> time = new Permissions().getTweetTime();
+            List<String> post = new Permissions().getTimeLine();
+            Platform.runLater(() -> {
+                try {
+                    tweetOne.setText("@" + new Permissions().getScreenName()
+                            + "\r\n" + post.get(0) + "\r\n" + time.get(0));
+                    tweetTwo.setText("@" + new Permissions().getScreenName()
+                            + "\r\n" + post.get(1) + "\r\n" + time.get(1));
+                    tweetThree.setText("@" + new Permissions().getScreenName()
+                            + "\r\n" + post.get(2) + "\r\n" + time.get(2));
+                }
+                catch (TwitterException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            });
+            Platform.runLater(() -> {
+                try {
+                    TweetFour.setText("@" + new Permissions().getScreenName()
+                            + "\r\n" + post.get(3) + "\r\n" + time.get(3));
+                    tweetFive.setText("@" + new Permissions().getScreenName()
+                            + "\r\n" + post.get(4) + "\r\n" + time.get(4));
+                }
+                catch (TwitterException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
@@ -271,31 +292,38 @@ public class HomeController {
             mediaTab = true;
         }
         if (pics.get(position).equals(timeDateIcon)) {
-            showTime();          
+            showTime();
         }
         if (pics.get(position).equals(weatherIcon)) {
             showWeather();
+        }
+        if (pics.get(position).equals(youtubeIcon)) {
+            tweetTextField.setOpacity(1);
+            tweetLabel.setVisible(true);
+            Platform.runLater(() -> tweetLabel.setText("Youtube"));
+            youtubeActivated = true;
+
         }
     }
 
     private void showWeather() {
         if (!weatherActivated) {
-            
+
         }
     }
+
     private void showTime() throws IOException, JSONException {
         if (!timeDateActivted) {
             Platform.runLater(
                     () -> timeDate.setText(weather.getTime().toString()));
-            Platform.runLater(
-                    () -> timeDate.setVisible(true));
-            timeDateActivted=true;
-        }else {
-            Platform.runLater(
-                    () -> timeDate.setVisible(false));
+            Platform.runLater(() -> timeDate.setVisible(true));
+            timeDateActivted = true;
         }
-        
-        timeDateActivted = true;        
+        else {
+            Platform.runLater(() -> timeDate.setVisible(false));
+        }
+
+        timeDateActivted = true;
         Platform.runLater(
                 () -> timeDate.setText(weather.getTime().toString()));
     }
@@ -323,7 +351,6 @@ public class HomeController {
             System.out.println(position);
         }
         else {
-            youtubePlayVideo();
             position++;
             pics.get(position).setOpacity(1);
             pics.get(position - 1).setOpacity(.5);
@@ -334,59 +361,73 @@ public class HomeController {
     private void prev() {
         if (position == 0) {
             pics.get(position).setOpacity(.5);
-            position = pics.size()-1;
+            position = pics.size() - 1;
             pics.get(position).setOpacity(1);
             System.out.println(position);
-
 
         }
         else {
             position--;
             System.out.println(position);
-           Platform.runLater(()-> pics.get(position).setOpacity(1));
+            Platform.runLater(() -> pics.get(position).setOpacity(1));
             pics.get(position + 1).setOpacity(.5);
             System.out.println(position);
 
         }
 
     }
-    
+
     public void cancel() throws IOException, JSONException {
         // create command mirror cancel
-        // call cancel, sets all values back to default and closes everything in the running application. 
+        // call cancel, sets all values back to default and closes everything in
+        // the running application.
         twitterActivated = false;
-        
-      //Icon value reset to beginning    
+
+        // Icon value reset to beginning
         pics.get(position).setOpacity(.5);
-        //position counter set to beginning
-        position=0;
+        // position counter set to beginning
+        position = 0;
         pics.get(position).setOpacity(.5);
 
         pics.get(position).setOpacity(1);
-        
-        //clear text field
+
+        // clear text field
         tweetTextField.clear();
-        
-        //close everything
+
+        // close everything
         Platform.runLater(() -> mediaChoiceBox.setVisible(false));
         mediaLabel.setVisible(false);
         mediaTab = false;
 
         tweetLabel.setVisible(false);
         tweetTextField.setOpacity(0);
-        Platform.runLater(()->timeLineContainer.setVisible(false));
+        Platform.runLater(() -> timeLineContainer.setVisible(false));
         viewPost.get(0).setOpacity(.5);
         viewPost.get(1).setOpacity(.5);
-        
-        //resets time and date
+
+        youtubeVideoContainer.setOpacity(0);
+        // resets time and date
         timeDateActivted = true;
         showTime();
     }
-    
-    public void youtubePlayVideo() throws IOException {
-        youtubeClass vid = new youtubeClass("calebcity");
+
+    public void grabVideo() throws IOException {
+        youtubeClass vid = new youtubeClass(tweetTextField.getText());
+        if (youtubeActivated) {
+            Platform.runLater(
+                    () -> youtubeVideoContainer.getEngine().load(vid.send));
+        }
         
-        Platform.runLater(()->youtubeVideoContainer.getEngine().load( vid.send));
     }
+    public void playPause() throws AWTException {
+        
+        //simulate mouse click on location where the video will be at all times
+        //TODO on final build calibrate to click
+        Robot bot = new Robot();
+        bot.mouseMove(800, 450);
+        bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+    
 
 }
