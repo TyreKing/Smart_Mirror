@@ -65,6 +65,8 @@ public class Voice {
     
     //------------------------------------------------------------------------------------
     private HomeController homeController;
+    
+    private int counter=0;
     /**
      * Constructor
      */
@@ -165,11 +167,16 @@ public class Voice {
                         } else
                             logger.log(Level.INFO, "Ingoring Speech Recognition Results...");
                       //Get the hypothesis
-                        speechRecognitionResult = speechResult.getHypothesis();
-                        
+                        speechRecognitionResult = speechResult.getHypothesis(); 
+                        //switch to show animation of awake and sleep
+                        if (ignoreSpeechRecognitionResults && speechRecognitionResult.equals("mirror stop listening")) {
+                            
+                            homeController.getController().highlighted(speechRecognitionResult);
+                        }
                         // check if user is trying to wake the mirror
                         if(speechRecognitionResult.equals("mirror mirror") ){
                             stopIgnoreSpeechRecognitionResults();
+                            homeController.getController().highlighted(speechRecognitionResult);
                         }
                     }
                 } catch (Exception ex) {

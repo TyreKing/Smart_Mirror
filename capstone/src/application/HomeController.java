@@ -212,6 +212,16 @@ public class HomeController {
         if(move.equals("mirror play")||move.equals("mirror pause")) {
             playPause();
         }
+        if(move.equals("mirror mirror")) {
+            Platform.runLater(()-> showCommand.setText(":)"));
+            showCommand.setVisible(true);
+            Platform.runLater(() -> fadein(showCommand));
+        }
+        if(move.equals("mirror stop listening")) {
+            Platform.runLater(()-> showCommand.setText("Zzz..."));
+            showCommand.setVisible(true);
+            Platform.runLater(() -> fadein(showCommand));
+        }
     }
 
     private void complete()
@@ -299,7 +309,7 @@ public class HomeController {
         }
         if (pics.get(position).equals(youtubeIcon)) {
             tweetTextField.setOpacity(1);
-            tweetLabel.setVisible(true);
+            Platform.runLater(()->tweetLabel.setVisible(true));
             Platform.runLater(() -> tweetLabel.setText("Youtube"));
             youtubeActivated = true;
 
@@ -348,13 +358,11 @@ public class HomeController {
             pics.get(position).setOpacity(.5);
             position = 0;
             pics.get(position).setOpacity(1);
-            System.out.println(position);
         }
         else {
             position++;
             pics.get(position).setOpacity(1);
             pics.get(position - 1).setOpacity(.5);
-            System.out.println(position);
         }
     }
 
@@ -363,7 +371,6 @@ public class HomeController {
             pics.get(position).setOpacity(.5);
             position = pics.size() - 1;
             pics.get(position).setOpacity(1);
-            System.out.println(position);
 
         }
         else {
@@ -371,7 +378,6 @@ public class HomeController {
             System.out.println(position);
             Platform.runLater(() -> pics.get(position).setOpacity(1));
             pics.get(position + 1).setOpacity(.5);
-            System.out.println(position);
 
         }
 
