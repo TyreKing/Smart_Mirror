@@ -83,13 +83,22 @@
                </opaqueInsets>
             </Label>
             <TextField fx:id="tweetTextField" layoutX="114.0" layoutY="64.0" prefHeight="98.0" prefWidth="318.0" promptText="Write a Tweet. . ." style="-fx-opacity: 0; -fx-background-color: white; -fx-text-inner-color: black;" />
-            <Label fx:id="tweetLabel" style="-fx-translate-x: 100; -fx-text-fill: white; visibility: false; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 4em;" text="Post A Tweet" />
+            <Label fx:id="tweetLabel" style="-fx-translate-x: 100; -fx-text-fill: white; visibility: false; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 4em;" />
             <Label fx:id="timeDate" layoutX="7.0" layoutY="593.0" prefHeight="54.0" prefWidth="398.0" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 1.5em; visibility: false;" text="Time" />
-            <HBox fx:id="mediaChoiceBox" layoutX="303.0" layoutY="600.0" prefHeight="54.0" prefWidth="216.0" style="visibility: false;">
+            <HBox fx:id="mediaChoiceBox" layoutX="203.0" layoutY="600.0" prefHeight="54.0" prefWidth="316.0" spacing="20.0" style="visibility: false;">
                <children>
-                  <Label fx:id="mediaLabel" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 2em;" text="Media" />
-                  <Button fx:id="viewPostButton" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to left, #ff7f50, #6a5acd); -fx-text-fill: white;" text="View Post" />
-                  <Button fx:id="writePostButton" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #ff7f50, #6a5acd); -fx-text-fill: white;" text="Write Post" />
+                  <Label fx:id="mediaLabel" prefHeight="28.0" prefWidth="119.0" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 2em;" text="Media" />
+                  <Button fx:id="viewPostButton" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to left, #ff7f50, #6a5acd); -fx-text-fill: white;" text="View Post">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
+                  <Button fx:id="writePostButton" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #ff7f50, #6a5acd); -fx-text-fill: white;" text="Write Post">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
                </children>
             </HBox>
             <VBox fx:id="timeLineContainer" layoutX="14.0" layoutY="199.0" prefHeight="401.0" prefWidth="312.0" style="visibility: false;">
@@ -113,7 +122,7 @@
                   <Text fx:id="highTemp" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="87 high" wrappingWidth="44.13671875" />
                </children>
             </VBox>
-            <WebView fx:id="youtubeVideoContainer" layoutX="160.0" layoutY="227.0" prefHeight="200.0" prefWidth="264.0" />
+            <WebView fx:id="youtubeVideoContainer" layoutX="58.0" layoutY="227.0" prefHeight="309.0" prefWidth="401.0" style="-fx-opacity: 0;" />
          </children>
       </AnchorPane>
    </left>
