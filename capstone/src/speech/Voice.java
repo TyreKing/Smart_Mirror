@@ -1,6 +1,7 @@
 package speech;
 
 
+import java.awt.AWTException;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -163,7 +164,13 @@ public class Voice {
                             }
                         } else
                             logger.log(Level.INFO, "Ingoring Speech Recognition Results...");
+                      //Get the hypothesis
+                        speechRecognitionResult = speechResult.getHypothesis();
                         
+                        // check if user is trying to wake the mirror
+                        if(speechRecognitionResult.equals("mirror mirror") ){
+                            stopIgnoreSpeechRecognitionResults();
+                        }
                     }
                 } catch (Exception ex) {
                     logger.log(Level.WARNING, null, ex);
@@ -238,8 +245,9 @@ public class Voice {
      * @throws JSONException 
      * @throws IOException 
      * @throws TwitterException 
+     * @throws AWTException 
      */
-    public void makeDecision(String speech , List<WordResult> speechWords) throws TwitterException, IOException, JSONException {
+    public void makeDecision(String speech , List<WordResult> speechWords) throws TwitterException, IOException, JSONException, AWTException {
         
         System.out.println(speech);
 
@@ -274,6 +282,18 @@ public class Voice {
                 homeController.getController().highlighted(speech);
                 break;
             case "mirror confirm":
+                homeController.getController().highlighted(speech);
+                break;
+            case "mirror cancel":
+                homeController.getController().highlighted(speech);
+                break;
+            case "mirror play":
+                homeController.getController().highlighted(speech);
+                break;
+            case "mirror pause":
+                homeController.getController().highlighted(speech);
+                break;
+            case "mirror search":
                 homeController.getController().highlighted(speech);
                 break;
             
