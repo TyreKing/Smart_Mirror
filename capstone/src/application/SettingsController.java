@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.AWTException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -322,9 +323,10 @@ public class SettingsController {
      * @throws TwitterException
      * @throws JSONException 
      * @throws IOException 
+     * @throws AWTException 
      */
     private Mat findAndDrawBalls(Mat maskedImage, Mat frame)
-            throws TwitterException, IOException, JSONException {
+            throws TwitterException, IOException, JSONException, AWTException {
         // init
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
@@ -484,12 +486,4 @@ public class SettingsController {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-
 }
