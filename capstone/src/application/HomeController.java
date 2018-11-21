@@ -21,6 +21,8 @@ import javax.sound.sampled.TargetDataLine;
 
 import org.json.JSONException;
 
+import com.restfb.types.Page.VoipInfo;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -127,7 +129,7 @@ public class HomeController {
     private int mediaPosition = 0;
     private boolean twitterActivated = false;
     private boolean weatherActivated = false;
-    private boolean timeDateActivted = false;
+    private boolean timeDateActivated = false;
     private boolean youtubeActivated = false;
     private boolean mediaTab = false;
     private WeatherClass weather;
@@ -209,16 +211,16 @@ public class HomeController {
         if (move.equals("mirror cancel")) {
             cancel();
         }
-        if(move.equals("mirror play")||move.equals("mirror pause")) {
+        if (move.equals("mirror play") || move.equals("mirror pause")) {
             playPause();
         }
-        if(move.equals("mirror mirror")) {
-            Platform.runLater(()-> showCommand.setText(":)"));
+        if (move.equals("mirror mirror")) {
+            Platform.runLater(() -> showCommand.setText(":)"));
             showCommand.setVisible(true);
             Platform.runLater(() -> fadein(showCommand));
         }
-        if(move.equals("mirror stop listening")) {
-            Platform.runLater(()-> showCommand.setText("Zzz..."));
+        if (move.equals("mirror stop listening")) {
+            Platform.runLater(() -> showCommand.setText("Zzz..."));
             showCommand.setVisible(true);
             Platform.runLater(() -> fadein(showCommand));
         }
@@ -300,6 +302,7 @@ public class HomeController {
             Platform.runLater(() -> mediaLabel.setText("Twitter"));
             Platform.runLater(() -> mediaChoiceBox.setVisible(true));
             mediaTab = true;
+
         }
         if (pics.get(position).equals(timeDateIcon)) {
             showTime();
@@ -309,7 +312,7 @@ public class HomeController {
         }
         if (pics.get(position).equals(youtubeIcon)) {
             tweetTextField.setOpacity(1);
-            Platform.runLater(()->tweetLabel.setVisible(true));
+            Platform.runLater(() -> tweetLabel.setVisible(true));
             Platform.runLater(() -> tweetLabel.setText("Youtube"));
             youtubeActivated = true;
 
@@ -323,19 +326,20 @@ public class HomeController {
     }
 
     private void showTime() throws IOException, JSONException {
-        if (!timeDateActivted) {
+        if (timeDateActivated) {
+            timeDateActivated = false;
+            Platform.runLater(() -> timeDate.setVisible(false));
+            
+        }else{
+            timeDateActivated = true;
+            Platform.runLater(() -> timeDate.setVisible(true));
             Platform.runLater(
                     () -> timeDate.setText(weather.getTime().toString()));
-            Platform.runLater(() -> timeDate.setVisible(true));
-            timeDateActivted = true;
-        }
-        else {
-            Platform.runLater(() -> timeDate.setVisible(false));
-        }
+    }
 
-        timeDateActivted = true;
-        Platform.runLater(
-                () -> timeDate.setText(weather.getTime().toString()));
+    // timeDateActivted = true;
+    // Platform.runLater(
+    // () -> timeDate.setText(weather.getTime().toString()));
     }
 
     private void nextbutton() {
@@ -383,7 +387,7 @@ public class HomeController {
 
     }
 
-    public void cancel() throws IOException, JSONException {
+    public void cancel() throws IOException, JSONException, AWTException {
         // create command mirror cancel
         // call cancel, sets all values back to default and closes everything in
         // the running application.
@@ -412,9 +416,22 @@ public class HomeController {
         viewPost.get(1).setOpacity(.5);
 
         youtubeVideoContainer.setOpacity(0);
+
         // resets time and date
-        timeDateActivted = true;
+        timeDateActivated = true;
         showTime();
+
+        // pause video and hide it
+        if (youtubeActivated) {
+            playPause();
+            youtubeActivated = false;
+            youtubeVideoContainer.setOpacity(0);
+            click();
+        }
+        else {
+            click();
+        }
+
     }
 
     public void grabVideo() throws IOException {
@@ -423,17 +440,28 @@ public class HomeController {
             Platform.runLater(
                     () -> youtubeVideoContainer.getEngine().load(vid.send));
         }
-        
+
     }
+
     public void playPause() throws AWTException {
-        
-        //simulate mouse click on location where the video will be at all times
-        //TODO on final build calibrate to click
         Robot bot = new Robot();
+        // simulate mouse click on location where the video will be at all times
+        // TODO on final build calibrate to click
+
         bot.mouseMove(800, 450);
         bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+
     }
-    
+
+    public void click() throws AWTException {
+        Robot bot = new Robot();
+        // simulate mouse click on location where the video will be at all times
+        // TODO on final build calibrate to click
+
+        bot.mouseMove(800, 250);
+        bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
 
 }
