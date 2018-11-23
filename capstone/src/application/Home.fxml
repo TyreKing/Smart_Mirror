@@ -83,7 +83,7 @@
                </opaqueInsets>
             </Label>
             <TextField fx:id="tweetTextField" layoutX="114.0" layoutY="64.0" prefHeight="98.0" prefWidth="318.0" promptText="Write a Tweet. . ." style="-fx-opacity: 0; -fx-background-color: white; -fx-text-inner-color: black;" />
-            <Label fx:id="tweetLabel" style="-fx-translate-x: 100; -fx-text-fill: white; visibility: false; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 4em;" />
+            <Label fx:id="tweetLabel" prefHeight="58.0" prefWidth="348.0" style="-fx-translate-x: 100; -fx-text-fill: white; visibility: false; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 4em;" />
             <Label fx:id="timeDate" layoutX="7.0" layoutY="593.0" prefHeight="54.0" prefWidth="398.0" style="-fx-text-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-font-size: 1.5em; visibility: false;" text="Time" />
             <HBox fx:id="mediaChoiceBox" layoutX="203.0" layoutY="600.0" prefHeight="54.0" prefWidth="316.0" spacing="20.0" style="visibility: false;">
                <children>
@@ -114,15 +114,15 @@
                   <Label fx:id="tweetFive" prefHeight="76.0" prefWidth="312.0" style="-fx-background-color: #3B239C; -fx-opacity: .2; -fx-text-fill: white;" text="tweet 5" />
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" style="visibility: false;">
+            <VBox fx:id="weatherContainer" prefHeight="200.0" prefWidth="148.0" style="-fx-opacity: 0;">
                <children>
-                  <ImageView fx:id="dailyWeatherIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <Text fx:id="temp" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="70 Degrees" wrappingWidth="99.13671875" />
-                  <Text fx:id="chanceOfRain" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="0%  chance of rain" wrappingWidth="99.13671875" />
-                  <Text fx:id="highTemp" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" text="87 high" wrappingWidth="44.13671875" />
+                  <ImageView fx:id="dailyWeatherIcon" fitHeight="96.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true" translateX="40.0" />
+                  <Text fx:id="description" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-text-alignment: center;" text="Description" wrappingWidth="206.13671875" />
+                  <Text fx:id="temp" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-text-alignment: center;" text="70 Degrees" wrappingWidth="200.13671875" />
+                  <Text fx:id="chanceOfRain" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-family: &quot;Courier New&quot;, Courier, monospace; -fx-text-alignment: center;" text="Enjoy The Weather!" wrappingWidth="205.13671875" />
                </children>
             </VBox>
-            <WebView fx:id="youtubeVideoContainer" layoutX="58.0" layoutY="227.0" prefHeight="309.0" prefWidth="401.0" style="-fx-opacity: 0;" />
+            <WebView fx:id="youtubeVideoContainer" layoutX="59.0" layoutY="221.0" prefHeight="309.0" prefWidth="401.0" style="-fx-opacity: 0;" />
          </children>
       </AnchorPane>
    </left>

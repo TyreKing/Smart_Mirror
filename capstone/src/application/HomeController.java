@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -31,6 +32,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -41,6 +43,7 @@ import twitter4j.TwitterException;
 import twitteraApp.Permissions;
 import weatherApp.WeatherClass;
 import youtubeApp.youtubeClass;
+import icons.*;
 
 public class HomeController {
 
@@ -117,10 +120,13 @@ public class HomeController {
     private Text chanceOfRain;
 
     @FXML
-    private Text highTemp;
+    private Text description;
 
     @FXML
     private WebView youtubeVideoContainer;
+
+    @FXML
+    private VBox weatherContainer;
 
     List<ImageView> pics = new ArrayList<>();
     List<Button> viewPost = new ArrayList<>();
@@ -133,6 +139,7 @@ public class HomeController {
     private boolean youtubeActivated = false;
     private boolean mediaTab = false;
     private WeatherClass weather;
+    private Image dailyweatherImage;
 
     public HomeController getController() throws IOException, JSONException {
 
@@ -320,7 +327,38 @@ public class HomeController {
     }
 
     private void showWeather() {
-        if (!weatherActivated) {
+        if (weatherActivated) {
+            weatherActivated = false;
+            weatherContainer.setOpacity(0);
+        }
+        else {
+            weatherActivated= true;
+
+            
+            Platform.runLater(
+                    () -> temp.setText(Double.toString(Math.floor(weather.getTemp()))+" Degrees"));
+
+            Platform.runLater(
+                    () -> description.setText(weather.getDescription()));
+            weatherContainer.setOpacity(1);
+            if (weather.getWeatherType().equals("Clear")) {
+                dailyweatherImage= new Image("icons/icons8-partly-cloudy-day-64.png");
+                Platform.runLater(()->dailyWeatherIcon.setImage(dailyweatherImage));
+               
+            }
+            if (weather.getWeatherType().equals("Clouds")) {
+                dailyweatherImage= new Image("icons/icons8-sun-64.png");
+                Platform.runLater(()->dailyWeatherIcon.setImage(dailyweatherImage));
+            }
+            if (weather.getWeatherType().equals("Drizzle")) {
+                dailyweatherImage= new Image("icons/icons8-rain-64.png");
+                Platform.runLater(()->dailyWeatherIcon.setImage(dailyweatherImage));
+            }
+            if (weather.getWeatherType().equals("Rain")) {
+               
+                dailyweatherImage= new Image("icons/icons8-rain-64.png");
+                Platform.runLater(()->dailyWeatherIcon.setImage(dailyweatherImage));
+            }
 
         }
     }
@@ -329,17 +367,18 @@ public class HomeController {
         if (timeDateActivated) {
             timeDateActivated = false;
             Platform.runLater(() -> timeDate.setVisible(false));
-            
-        }else{
+
+        }
+        else {
             timeDateActivated = true;
             Platform.runLater(() -> timeDate.setVisible(true));
             Platform.runLater(
                     () -> timeDate.setText(weather.getTime().toString()));
-    }
+        }
 
-    // timeDateActivted = true;
-    // Platform.runLater(
-    // () -> timeDate.setText(weather.getTime().toString()));
+        // timeDateActivted = true;
+        // Platform.runLater(
+        // () -> timeDate.setText(weather.getTime().toString()));
     }
 
     private void nextbutton() {
@@ -431,6 +470,10 @@ public class HomeController {
         else {
             click();
         }
+        
+        //hides the weather
+        weatherActivated = true;
+        showWeather();
 
     }
 
