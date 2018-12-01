@@ -115,12 +115,11 @@ public class SettingsController {
 
     // property for object binding
     private ObjectProperty<String> hsvValuesProp;
-    
+
     // This will launch the actual program over the setting window
     @FXML
     void openHome(ActionEvent event) {
 
-        
         try {
             Stage stage = new Stage();
 
@@ -129,6 +128,7 @@ public class SettingsController {
             BorderPane root1 = (BorderPane) loader.load();
             stage.setTitle("Home screen");
             stage.setScene(new Scene(root1));
+            stage.setFullScreen(true);
             stage.show();
             homeController = loader.getController();
 
@@ -136,6 +136,9 @@ public class SettingsController {
         catch (Exception e) {
             System.out.println("New Window will not load");
         }
+
+        voiceCommands(event);
+        startCamera();
 
     }
 
@@ -177,8 +180,6 @@ public class SettingsController {
         this.hsvCurrentValues.textProperty().bind(hsvValuesProp);
 
         // set a fixed width for all the image to show and preserve image ratio
-        // this.imageViewProperties(this.originalFrame, 400);
-        // this.imageViewProperties(this.maskImage, 200);
         this.imageViewProperties(this.morphImage, 200);
 
         if (!this.cameraActive) {
@@ -273,10 +274,7 @@ public class SettingsController {
 
                     // threshold HSV image to select tennis balls
                     Core.inRange(hsvImage, minValues, maxValues, mask);
-                    // show the partial output
-                    // this.updateImageView(this.maskImage,
-                    // Utils.mat2Image(mask));
-
+                    
                     // morphological operators
                     // dilate with large element, erode with small ones
                     Mat dilateElement = Imgproc.getStructuringElement(
@@ -321,9 +319,9 @@ public class SettingsController {
      *            objects contours
      * @return the {@link Mat} image with the objects contours framed
      * @throws TwitterException
-     * @throws JSONException 
-     * @throws IOException 
-     * @throws AWTException 
+     * @throws JSONException
+     * @throws IOException
+     * @throws AWTException
      */
     private Mat findAndDrawBalls(Mat maskedImage, Mat frame)
             throws TwitterException, IOException, JSONException, AWTException {
@@ -340,50 +338,49 @@ public class SettingsController {
 
             // for each contour, display it in blue
             for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
-                // Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0,
-                // 0));
+                // creates a rectangle around contour
                 Rect rect = Imgproc.boundingRect(contours.get(idx));
                 Imgproc.rectangle(frame, rect.tl(), rect.br(),
                         new Scalar(250, 0, 0));
-                // System.out.println(rect.x);
 
                 xLocation = rect.x;
                 yLocation = rect.y;
                 leftRightMvmt.add(xLocation);
                 upDownMvmt.add(yLocation);
 
-                if (leftRightMvmt.size() > 12) {
+                // used to detect movement
+                if (leftRightMvmt.size() > 10) {
                     left = leftDownMvmt(leftRightMvmt);
                     right = rightUpMvmt(leftRightMvmt);
 
+                    //
                     leftRightMvmt.clear();
                     if (left) {
                         // sends data to HomeController to control movement
 
                         homeController.getController().highlighted("left");
-                        
-                        System.out.println("left");
+
                     }
                     if (right) {
-                        // sends data tos HomeController to control movement
+                        // sends data to HomeController to control movement
                         homeController.getController().highlighted("right");
-                        System.out.println("right");
+
                     }
 
                 }
 
-                if (upDownMvmt.size() > 12) {
+                if (upDownMvmt.size() > 15) {
                     up = rightUpMvmt(upDownMvmt);
                     down = leftDownMvmt(upDownMvmt);
                     upDownMvmt.clear();
 
                     if (up) {
                         homeController.getController().highlighted("up");
-                        System.out.println("up");
+
                     }
                     if (down) {
                         homeController.getController().highlighted("down");
-                        System.out.println("down");
+
                     }
 
                 }
@@ -394,12 +391,18 @@ public class SettingsController {
         return frame;
     }
 
+    /**
+     * Used to track negative number movement
+     * 
+     * @param xaxis
+     *            direction in which the rectangle moves
+     * @return boolean
+     */
     private boolean leftDownMvmt(List<Integer> xaxis) {
 
         // Ascending
         for (int i = 0; i < xaxis.size() - 1; i++) {
             if (xaxis.get(i) > xaxis.get(i + 1)) {
-                // leftRightMvmt.clear();
                 return false;
             }
 
@@ -407,14 +410,19 @@ public class SettingsController {
         return true;
     }
 
+    /**
+     * Used to track positive number movement
+     * 
+     * @param xaxis
+     *            direction in which the rectangle moves
+     * @return boolean
+     */
     private boolean rightUpMvmt(List<Integer> xaxis) {
         // Descending
         for (int i = 0; i < xaxis.size() - 1; i++) {
             if (xaxis.get(i) < xaxis.get(i + 1)) {
-                // leftRightMvmt.clear();
                 return false;
             }
-
         }
         return true;
     }
@@ -477,13 +485,17 @@ public class SettingsController {
     protected void setClosed() {
         this.stopAcquisition();
     }
-    
-    
+
+    /**
+     * sets HomeController object to voice
+     * 
+     * @param event
+     *            on button click
+     */
     @FXML
-    void voiceCommands(ActionEvent event){
-      
-    Platform.runLater(()-> new Voice(homeController));
+    private void voiceCommands(ActionEvent event) {
+
+        Platform.runLater(() -> new Voice(homeController));
     }
-    
-    
+
 }
