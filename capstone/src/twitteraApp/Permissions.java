@@ -72,8 +72,7 @@ public class Permissions {
     private Twitter getTwitterinstance() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         // ====================================================================================
-        // =====================READ
-        // THIS!!!===============================================
+        // =====================READ THIS!!!===============================================
         // Uncomment these line of code if it is the first
         // time you are trying to sign into twitter
         // ====================================================================================
@@ -84,8 +83,7 @@ public class Permissions {
         // cb.setOAuthAccessTokenSecret(System.getenv("ATS"));
 
         // ====================================================================================
-        // =====================READ
-        // THIS!!!===============================================
+        // =====================READ THIS!!!===============================================
         // once you set up your configurations
         // comment the above lines and you will be signed into your own twitter
         // account
