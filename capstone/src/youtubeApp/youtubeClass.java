@@ -102,16 +102,13 @@ public class youtubeClass {
     }
 
     
-    
+    /**
+     * Searches through youTube and chooses the top result 
+     * @param search the string that is to be looked up on youTube
+     * @throws IOException
+     */
     public youtubeClass(String search) throws IOException {
         YouTube youtube = getYouTubeService();
-        
-         
-       
-         
-         
-         
-         
         try {
             HashMap<String, String> parameters = new HashMap<>();
             parameters.put("part", "snippet");
@@ -142,19 +139,21 @@ public class youtubeClass {
             System.out.println(response.getItems().get(0).getId());
             String id =  response.getItems().get(0).getId().getVideoId();
 
-            //this give me the video ID
-            System.out.println("https://www.youtube.com/embed/"+id);
+            //this give me the video ID          
             send="https://www.youtube.com/embed/"+id;
             
 
-            //System.out.println(response);
+
         }
         catch (Exception e) {
             System.out.println(e);
         }
     }
+    /**
+     * Sends the embedded URL
+     * @return embedded video URL
+     */
     public String sender() {
-         
         return send;
     }
 }
