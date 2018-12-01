@@ -246,10 +246,10 @@ public class Voice {
     }
     
     /**
-     * Takes a decision based on the given result
+     * sends the result to the Homecontroller to be used as a command
      * 
-     * @param speechWords
-     * @throws JSONException 
+     * @param speechWords   list of words recognized
+     * @throws JSONException    
      * @throws IOException 
      * @throws TwitterException 
      * @throws AWTException 
@@ -307,11 +307,18 @@ public class Voice {
         }
         
     }
-    
+    /**
+     * 
+     * @return  boolean on whether speech is being ignored or not
+     */
     public boolean getIgnoreSpeechRecognitionResults() {
         return ignoreSpeechRecognitionResults;
     }
     
+    /**
+     * 
+     * @return  boolean on whether thread is running 
+     */
     public boolean getSpeechRecognizerThreadRunning() {
         return speechRecognizerThreadRunning;
     }
