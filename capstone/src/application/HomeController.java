@@ -193,7 +193,7 @@ public class HomeController {
      * it is equal to the known commands. If it is a known command, the method
      * will execute the command.
      * 
-     * @param move a command used to control the mirror
+     * @param move  a command used to control the mirror
      * @throws TwitterException
      * @throws IOException
      * @throws JSONException
@@ -201,50 +201,48 @@ public class HomeController {
      */
     public void highlighted(String move)
             throws TwitterException, IOException, JSONException, AWTException {
-        // checks for command
+        //checks for command
         if (move.equals("left") || move.equals("mirror left")
                 || move.equals("mirror up")) {
 
-            // if nothing is activated
+            //if nothing is activated
             if (!twitterActivated && !weatherActivated) {
-                // set the command, show the command,and run animation,
+                //set the command, show the command,and run animation,
                 Platform.runLater(() -> showCommand.setText(move));
                 showCommand.setVisible(true);
                 Platform.runLater(() -> fadein(showCommand));
-                // moves the position of the user back one place in the list
+                //moves the position of the user back one place in the list
                 prev();
             }
-            // (left command)when twitter is activated commands are now moved to
-            // button selection
+            //(left command)when twitter is activated commands are now moved to button selection
             if (twitterActivated) {
                 Platform.runLater(() -> nextbutton());
             }
 
         }
-        // if twitter is activated
+      //if twitter is activated
         if (move.equals("right") || move.equals("mirror right")
                 || move.equals("mirror down")) {
-
-            // set the command, show the command,and run animation,
+            
+            //set the command, show the command,and run animation,
             if (!twitterActivated) {
                 Platform.runLater(() -> showCommand.setText(move));
                 showCommand.setVisible(true);
                 Platform.runLater(() -> fadein(showCommand));
-
-                // moves the position of the user forward one place in the list
+                
+                //moves the position of the user forward one place in the list
                 next();
             }
-            // (right command)when twitter is activated commands are now moved
-            // to button selection
+            //(right command)when twitter is activated commands are now moved to button selection
             if (twitterActivated) {
                 Platform.runLater(() -> nextbutton());
             }
 
         }
-        // checks commands
-        // these are the commands for selection
+        //checks commands
+        //these are the commands for selection
         if (move.equals("up") || move.equals("mirror select")) {
-
+          
             if (mediaTab == true) {
                 selectedMediaTab();
             }
@@ -252,12 +250,12 @@ public class HomeController {
                 selected();
             }
         }
-        // checks commands
+        //checks commands
         if (move.equals("down") || move.equals("mirror confirm")
                 || move.equals("mirror send")
                 || move.equals("mirror Search")) {
-
-            // completes action wanted by the user
+            
+            //completes action wanted by the user
             complete();
         }
         // resets all values and hides features
@@ -268,13 +266,13 @@ public class HomeController {
         if (move.equals("mirror play") || move.equals("mirror pause")) {
             playPause();
         }
-        // activates the mirror to execute commands
+        //activates the mirror to execute commands
         if (move.equals("mirror mirror")) {
             Platform.runLater(() -> showCommand.setText(":)"));
             showCommand.setVisible(true);
             Platform.runLater(() -> fadein(showCommand));
         }
-        // makes the mirror stop doing commands
+        //makes the mirror stop doing commands
         if (move.equals("mirror stop listening")) {
             Platform.runLater(() -> showCommand.setText("Zzz..."));
             showCommand.setVisible(true);
@@ -282,11 +280,11 @@ public class HomeController {
         }
     }
 
-    // executes actions based on what is activated
+    //executes actions based on what is activated
     private void complete()
             throws TwitterException, IOException, AWTException {
         if (twitterActivated) {
-            // turn off twitter
+           //turn off twitter
             twitterActivated = false;
 
             Platform.runLater(() -> mediaChoiceBox.setVisible(false));
@@ -296,9 +294,9 @@ public class HomeController {
             tweetLabel.setVisible(false);
             tweetTextField.setOpacity(0);
 
-            // create a new tweet with the values in the text field
+            //create a new tweet with the values in the text field
             new Permissions().createTweet(tweetTextField.getText());
-
+            
             // show confirmation that the tweet has been posted
             Platform.runLater(() -> showCommand.setText("SENT"));
             showCommand.setVisible(true);
@@ -309,13 +307,13 @@ public class HomeController {
             tweetTextField.clear();
         }
         if (youtubeActivated) {
-
-            // turns off youTube
+            
+            //turns off youTube
             tweetLabel.setVisible(false);
             tweetTextField.setOpacity(0);
             youtubeVideoContainer.setOpacity(1);
-
-            // method call to show embedded youTube video in the webView
+            
+            //method call to show embedded youTube video in the webView
             grabVideo();
         }
 
@@ -324,18 +322,18 @@ public class HomeController {
     // secondary selection menu for twitter
     private void selectedMediaTab() throws TwitterException {
         if (viewPost.get(mediaPosition).equals(writePostButton)) {
-            // show text field
+            //show text field
             tweetTextField.setOpacity(1);
         }
         else {
-            // show twitter feed container
+            //show twitter feed container
             Platform.runLater(() -> timeLineContainer.setVisible(true));
-            // get a list of the times of user tweets
+            //get a list of the times of user tweets
             List<Date> time = new Permissions().getTweetTime();
-            // get a list of user tweets
+            //get a list of user tweets
             List<String> post = new Permissions().getTimeLine();
-
-            // sets the containers to the tweets
+            
+            //sets the containers to the tweets
             Platform.runLater(() -> {
                 try {
                     tweetOne.setText("@" + new Permissions().getScreenName()
@@ -349,8 +347,8 @@ public class HomeController {
                     e.printStackTrace();
                 }
             });
-
-            // sets more container tweets
+            
+            //sets more container tweets
             Platform.runLater(() -> {
                 try {
                     TweetFour.setText("@" + new Permissions().getScreenName()
@@ -365,26 +363,26 @@ public class HomeController {
         }
     }
 
-    // user selection process
+    //user selection process
     private void selected() throws IOException, JSONException {
-        // if user highlighted the twitter icon
+        //if user highlighted the twitter icon
         if (pics.get(position).equals(twitterIcon)) {
-            // activate and show twitter
+            //activate and show twitter
             twitterActivated = true;
             Platform.runLater(() -> mediaLabel.setText("Twitter"));
             Platform.runLater(() -> mediaChoiceBox.setVisible(true));
             mediaTab = true;
 
         }
-        // if user highlighted timeDateIcon and selected
+        //if user highlighted timeDateIcon and selected
         if (pics.get(position).equals(timeDateIcon)) {
             showTime();
         }
-        // user highlighted weatherIcon and selected
+        //user highlighted weatherIcon and selected
         if (pics.get(position).equals(weatherIcon)) {
             showWeather();
         }
-        // user highlighted the youtubeIcon and selected
+        //user highlighted the youtubeIcon and selected
         if (pics.get(position).equals(youtubeIcon)) {
             tweetTextField.setOpacity(1);
             Platform.runLater(() -> tweetLabel.setVisible(true));
@@ -392,35 +390,37 @@ public class HomeController {
             youtubeActivated = true;
 
         }
-        // exits the program
+        //exits the program
         if (pics.get(position).equals(exit)) {
             Platform.exit();
         }
     }
 
+    
     private void showWeather() {
-        // turns off weather
+      //turns off weather
         if (weatherActivated) {
             weatherActivated = false;
             weatherContainer.setOpacity(0);
         }
         else {
-            // activates the weather
+            //activates the weather
             weatherActivated = true;
 
-            // sets the weather temperature
+            //sets the weather temperature
             Platform.runLater(() -> temp
                     .setText(Double.toString(Math.floor(weather.getTemp()))
                             + " Degrees"));
-            // sets the description of the weather
+            //sets the description of the weather
             Platform.runLater(
                     () -> description.setText(weather.getDescription()));
-
-            // shows the weather
+           
+            //shows the weather
             weatherContainer.setOpacity(1);
-
-            // sets the image with corresponding weather type
-            // --------------------------------------------------------------
+            
+            
+            //sets the image with corresponding weather type
+            //--------------------------------------------------------------
             if (weather.getWeatherType().equals("Clear")) {
                 dailyweatherImage = new Image(
                         "icons/icons8-partly-cloudy-day-64.png");
@@ -444,12 +444,12 @@ public class HomeController {
                 Platform.runLater(
                         () -> dailyWeatherIcon.setImage(dailyweatherImage));
             }
-            // ---------------------------------------------------------------
+            //---------------------------------------------------------------
 
         }
     }
 
-    // show the time and date
+    //show the time and date 
     private void showTime() throws IOException, JSONException {
         if (timeDateActivated) {
             timeDateActivated = false;
@@ -464,8 +464,7 @@ public class HomeController {
         }
 
     }
-
-    // movement for the media tab
+    //movement for the media tab
     private void nextbutton() {
         if (viewPost.get(mediaPosition).equals(viewPostButton)) {
             viewPost.get(mediaPosition).setOpacity(.5);
@@ -481,7 +480,7 @@ public class HomeController {
 
     }
 
-    // next movement for icons
+    //next movement for icons
     private void next() throws IOException {
         if (position == pics.size()) {
             pics.get(position).setOpacity(.5);
@@ -495,7 +494,7 @@ public class HomeController {
         }
     }
 
-    // previous movement for icons
+    //previous movement for icons
     private void prev() {
         if (position == 0) {
             pics.get(position).setOpacity(.5);
@@ -562,7 +561,7 @@ public class HomeController {
     }
 
     private void grabVideo() throws IOException {
-        // takes the textfield string and searches for the video
+        //takes the textfield string and searches for the video
         youtubeClass vid = new youtubeClass(tweetTextField.getText());
         if (youtubeActivated) {
             Platform.runLater(
@@ -573,8 +572,8 @@ public class HomeController {
 
     private void playPause() throws AWTException {
         Robot bot = new Robot();
-
-        // simulate mouse click on location where the video will be at all times
+        
+        // simulate mouse click on location where the video will be at all times       
         bot.mouseMove(800, 450);
         bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
@@ -583,7 +582,7 @@ public class HomeController {
 
     private void click() throws AWTException {
         Robot bot = new Robot();
-
+        
         // simulate mouse click to help reset the application
         bot.mouseMove(800, 250);
         bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
