@@ -1,5 +1,8 @@
 package application;
 
+/**
+ * @author Tyre King
+ */
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
@@ -54,8 +57,7 @@ public class HomeController {
 
     @FXML
     private ImageView Logo;
-    @FXML
-    private ImageView googleCalendarIcon;
+   
 
     @FXML
     private ImageView weatherIcon;
@@ -63,8 +65,7 @@ public class HomeController {
     @FXML
     private ImageView timeDateIcon;
 
-    @FXML
-    private ImageView facebookIcon;
+    
 
     @FXML
     private ImageView twitterIcon;
@@ -137,6 +138,7 @@ public class HomeController {
     private boolean weatherActivated = false;
     private boolean timeDateActivated = false;
     private boolean youtubeActivated = false;
+    private boolean videoPlaying = false;
     private boolean mediaTab = false;
     private WeatherClass weather;
     private Image dailyweatherImage;
@@ -146,10 +148,8 @@ public class HomeController {
         pics.add(exit);
         pics.add(weatherIcon);
         pics.add(timeDateIcon);
-        pics.add(facebookIcon);
         pics.add(twitterIcon);
         pics.add(youtubeIcon);
-        pics.add(googleCalendarIcon);
         pics.add(settingsIcon);
 
         viewPost.add(viewPostButton);
@@ -176,12 +176,18 @@ public class HomeController {
         if (move.equals("left") || move.equals("mirror left")
                 || move.equals("mirror up")) {
             // if no other feature is activated
-            if (!twitterActivated && !weatherActivated) {
-                Platform.runLater(() -> showCommand.setText(move));
-                showCommand.setVisible(true);
-                Platform.runLater(() -> fadein(showCommand));
-                prev();
-            }
+//            if (!twitterActivated && !weatherActivated) {
+//                Platform.runLater(() -> showCommand.setText(move));
+//                showCommand.setVisible(true);
+//                Platform.runLater(() -> fadein(showCommand));
+//                prev();
+//            }
+          if (!twitterActivated && !weatherActivated) {
+          Platform.runLater(() -> showCommand.setText(move));
+          showCommand.setVisible(true);
+          Platform.runLater(() -> fadein(showCommand));
+          prev();
+      }
             if (twitterActivated) {
                 Platform.runLater(() -> nextbutton());
             }
@@ -324,6 +330,9 @@ public class HomeController {
             youtubeActivated = true;
 
         }
+        if(pics.get(position).equals(exit)){
+            Platform.exit();
+        }
     }
 
     private void showWeather() {
@@ -437,9 +446,7 @@ public class HomeController {
         // position counter set to beginning
         position = 0;
         pics.get(position).setOpacity(.5);
-
         pics.get(position).setOpacity(1);
-
         // clear text field
         tweetTextField.clear();
 
@@ -470,7 +477,6 @@ public class HomeController {
         else {
             click();
         }
-        
         //hides the weather
         weatherActivated = true;
         showWeather();
