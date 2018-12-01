@@ -1,7 +1,7 @@
 #JSGF V1.0;
 
 /**
- * JSGF Grammar 
+ * JSGF Grammar \
  */
 
 grammar grammar;
@@ -11,5 +11,5 @@ public <command> =(mirror select | mirror choose | mirror right | mirror left | 
 					| mirror up | mirror down | mirror open twitter |
 					 mirror write tweet | mirror send tweet | mirror post tweet | mirror cancel |
 					 mirror confirm | mirror sleep | mirror search 
-					| mirror mirror | mirror play | mirror pause);			                          
+					| mirror mirror | mirror play | mirror pause | mirror sleep);			                          
 
