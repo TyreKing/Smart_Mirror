@@ -65,8 +65,7 @@ public class Voice {
     
     //------------------------------------------------------------------------------------
     private HomeController homeController;
-    
-    private int counter=0;
+
     /**
      * Constructor
      */
@@ -303,7 +302,35 @@ public class Voice {
             case "mirror search":
                 homeController.getController().highlighted(speech);
                 break;
-            
+            case "mirror open youtube":
+                homeController.getController().highlighted(speech);
+                break;
+            case "mirror show twitter feed":
+                homeController.getController().highlighted(speech);
+                break;
+            case "mirror open twitter":
+                homeController.getController().highlighted(speech);
+                break;
+                
+            case "mirror create tweet":
+                homeController.getController().highlighted(speech);
+                break;
+                
+            case "mirror post tweet":
+                homeController.getController().highlighted(speech);
+                break;
+                
+            case "mirror show weather":
+                homeController.getController().highlighted(speech);
+                break;
+            case "mirror show time":
+                homeController.getController().highlighted(speech);
+                break;
+                
+            case "mirror sleep":
+                homeController.getController().highlighted(speech);
+                break;
+               
         }
         
     }

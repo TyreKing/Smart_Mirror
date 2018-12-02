@@ -12,6 +12,6 @@ public <command> =(mirror select | mirror choose | mirror right | mirror left | 
 					 mirror write tweet | mirror post tweet | mirror post tweet | mirror cancel |
 					 mirror confirm | mirror sleep | mirror search |
 					 mirror mirror | mirror play | mirror pause | mirror sleep | mirror open youtube | mirror show twitter feed |
-					 mirror open twitter | mirror create tweet
+					 mirror open twitter | mirror create tweet | mirror show time | mirror show weather
 					);			                          
 

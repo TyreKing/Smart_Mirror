@@ -302,6 +302,14 @@ public class HomeController {
             position=4;
             selected();
         }
+        if(move.equals("mirror show weather")) {
+            cancel();
+            showWeather();
+        }
+        if(move.equals("mirror show time")) {
+            cancel();
+            showTime();
+        }
         
         
     }
