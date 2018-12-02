@@ -278,6 +278,12 @@ public class HomeController {
             showCommand.setVisible(true);
             Platform.runLater(() -> fadein(showCommand));
         }
+        
+        if(move.equals("mirror show twitter feed")) {
+            cancel();
+            mediaPosition =0;
+            selectedMediaTab();
+        }
     }
 
     //executes actions based on what is activated
