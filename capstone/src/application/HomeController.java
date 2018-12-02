@@ -252,8 +252,8 @@ public class HomeController {
         }
         //checks commands
         if (move.equals("down") || move.equals("mirror confirm")
-                || move.equals("mirror send")
-                || move.equals("mirror Search")) {
+                || move.equals("mirror post tweet")
+                || move.equals("mirror search")) {
             
             //completes action wanted by the user
             complete();
@@ -278,12 +278,32 @@ public class HomeController {
             showCommand.setVisible(true);
             Platform.runLater(() -> fadein(showCommand));
         }
-        
+        //shows twitter feed
         if(move.equals("mirror show twitter feed")) {
             cancel();
             mediaPosition =0;
             selectedMediaTab();
         }
+        
+        // opens the twitter menu
+        if(move.equals("mirror open twitter")) {
+            cancel();
+            position=3;
+            selected();
+        }
+        //shows twitter text field
+        if(move.equals("mirror create tweet")) {
+            cancel();
+            mediaPosition=1;
+            selectedMediaTab();
+        }
+        if(move.equals("mirror open youtube")) {
+            cancel();
+            position=4;
+            selected();
+        }
+        
+        
     }
 
     //executes actions based on what is activated
@@ -328,8 +348,12 @@ public class HomeController {
     // secondary selection menu for twitter
     private void selectedMediaTab() throws TwitterException {
         if (viewPost.get(mediaPosition).equals(writePostButton)) {
-            //show text field
+            //show text field and label
+            Platform.runLater(()->tweetLabel.setText("Post A Tweet"));
             tweetTextField.setOpacity(1);
+            tweetLabel.setOpacity(1);
+            
+           
         }
         else {
             //show twitter feed container
@@ -376,6 +400,7 @@ public class HomeController {
             //activate and show twitter
             twitterActivated = true;
             Platform.runLater(() -> mediaLabel.setText("Twitter"));
+            Platform.runLater(() -> mediaLabel.setVisible(true));
             Platform.runLater(() -> mediaChoiceBox.setVisible(true));
             mediaTab = true;
 
@@ -390,9 +415,11 @@ public class HomeController {
         }
         //user highlighted the youtubeIcon and selected
         if (pics.get(position).equals(youtubeIcon)) {
-            tweetTextField.setOpacity(1);
-            Platform.runLater(() -> tweetLabel.setVisible(true));
             Platform.runLater(() -> tweetLabel.setText("Youtube"));
+            tweetTextField.setOpacity(1);
+            Platform.runLater(()->tweetTextField.setVisible(true));
+            tweetLabel.setOpacity(1);
+//            Platform.runLater(() -> tweetLabel.setText("Youtube"));
             youtubeActivated = true;
 
         }
@@ -538,7 +565,7 @@ public class HomeController {
         mediaLabel.setVisible(false);
         mediaTab = false;
 
-        tweetLabel.setVisible(false);
+        tweetLabel.setOpacity(0);
         tweetTextField.setOpacity(0);
         Platform.runLater(() -> timeLineContainer.setVisible(false));
         viewPost.get(0).setOpacity(.5);
