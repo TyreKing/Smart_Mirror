@@ -34,6 +34,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import speech.Voice;
 import twitter4j.TwitterException;
 
@@ -128,7 +129,16 @@ public class SettingsController {
             BorderPane root1 = (BorderPane) loader.load();
             stage.setTitle("Home screen");
             stage.setScene(new Scene(root1));
-            stage.setFullScreen(true);
+           // stage.setFullScreen(true);
+            
+            stage.setHeight(700);
+            stage.setWidth(1400);
+           // stage.centerOnScreen();
+            
+            stage.setX(110);
+            stage.setY(98);
+            stage.initStyle(StageStyle.UNDECORATED);
+            
             stage.show();
             homeController = loader.getController();
 
