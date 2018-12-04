@@ -15,6 +15,9 @@ These instructions will get you a copy of the project up and running on your loc
 You will have to provide your own keys for the Smart Mirror.
 
  JavaFX: If you do not have it downloaded, follow this tutorial [here](https://www.eclipse.org/efxclipse/install.html)
+ 
+ You will need to place your own keys in the files. They are all noted insed the code where they need to be placed.
+ 
 <ul>Twitter Consumer Keys and Access Token & Access Token Secret</ul>
 <ul>YouTube Data API v3 OAuth 2.0 client IDs (Json File)</ul>
 <ul>OpenWeatherMap API key</ul>
