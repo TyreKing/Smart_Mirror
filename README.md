@@ -22,11 +22,6 @@ You will have to provide your own keys for the Smart Mirror.
 
 
 ### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
 Clone the project from the repository to your workspace.
 
 then go this website and follow the instruction
@@ -50,21 +45,27 @@ You can start the camera by itself by pressing the **camera button**.
 You can start the voice commands by pressing the **voice command buttom**.
 To start the application, press the **continue** button.
 
-**YOU MUST** press **continue** only when starting the program. The voice and color tracking will start with the program.
-If you want to test voice and color tracking use the **camera button** and **voice command button**.
+**YOU MUST** press **continue** only when starting the program to run the mirror application. The voice and color tracking will start on its own.
+If you want to test voice and color tracking use the **camera button** and **voice command button**:
+Start the Voice commands first
+Then Start the Camera.
 
+## Controls
+**Color Tracking**
+UP Motion   - Select current highlighted feature
+DOWN Motion - Confirm action, such as posting tweet or searching for youTube video
+RIGHT Motion - Move to next Icon
+LEFT Motion - Move to previous Icon
 
+**Voice Commands**
+Voice commands are In the grammer file. [here](https://github.com/TyreKing/Smart_Mirror/blob/master/capstone/src/application/grammar.gram).
 
-
-
-## Built With
-
-* [OpenWeatherMap](https://openweathermap.org/) - Used to gather Weather
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
+mirror select | mirror choose | mirror right | mirror left | mirror stop listening|
+mirror up | mirror down | mirror open twitter | mirror write tweet | mirror post tweet |
+mirror post tweet | mirror cancel | mirror confirm | mirror sleep | mirror search |
+mirror mirror | mirror play | mirror pause | mirror sleep | mirror open youtube |
+mirror show twitter feed | mirror open twitter | mirror create tweet | mirror show time | mirror show weather
 
 ## Acknowledgments
-
 OpenCV JavaTutorial
 OpenWeatherMap.org
