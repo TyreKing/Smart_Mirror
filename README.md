@@ -14,6 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 You will have to provide your own keys for the Smart Mirror.
 
+ JavaFX: If you do not have it downloaded, follow this tutorial [here](https://www.eclipse.org/efxclipse/install.html)
 <ul>Twitter Consumer Keys and Access Token & Access Token Secret</ul>
 <ul>YouTube Data API v3 OAuth 2.0 client IDs (Json File)</ul>
 <ul>OpenWeatherMap API key</ul>
@@ -28,72 +29,42 @@ Say what the step will be
 
 Clone the project from the repository to your workspace.
 
-
-
-
-
+then go this website and follow the instruction
+You should download the OpenCV library (version 3.x) from [here](https://opencv.org/releases.html).
 ```
-Give the example
+https://opencv.org/releases.html
 ```
+Then, extract the downloaded OpenCV file in a location of your choice. Once you get the folder opencv put in wherever you prefer.
 
-And repeat
+Now the only two things that you will need are: the opencv-3xx.jar file located at **\opencv\build\java** and the **opencv_java3xx.dll** library located at **\opencv\build\java\x64 (for 64-bit systems)** or **\opencv\build\java\x86 (for 32-bit systems)**. The 3xx suffix of each file is a shortcut for the current OpenCV version, e.g., it will be 300 for OpenCV 3.0 and 330 for OpenCV 3.3.
 
+This tutorial for Opencv maybe useful:
 ```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
+https://opencv-java-tutorials.readthedocs.io/en/latest/02-first-java-application-with-opencv.html
 ```
 
-### And coding style tests
 
-Explain what these tests test and why
+### Runing the application
+On the settings menu there are two preset options for detecting Colors which are **Blue** and **Green**.
+You can start the camera by itself by pressing the **camera button**.
+You can start the voice commands by pressing the **voice command buttom**.
+To start the application, press the **continue** button.
 
-```
-Give an example
-```
+**YOU MUST** press **continue** only when starting the program. The voice and color tracking will start with the program.
+If you want to test voice and color tracking use the **camera button** and **voice command button**.
 
-## Deployment
 
-Add additional notes about how to deploy this on a live system
+
+
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [OpenWeatherMap](https://openweathermap.org/) - Used to gather Weather
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+OpenCV JavaTutorial
+OpenWeatherMap.org
