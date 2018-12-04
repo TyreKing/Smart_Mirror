@@ -47,7 +47,9 @@ To start the application, press the **continue** button.
 
 **YOU MUST** press **continue** only when starting the program to run the mirror application. The voice and color tracking will start on its own.
 If you want to test voice and color tracking use the **camera button** and **voice command button**:
+
 Start the Voice commands first
+
 Then Start the Camera.
 
 ## Controls
@@ -68,4 +70,5 @@ mirror show twitter feed | mirror open twitter | mirror create tweet | mirror sh
 
 ## Acknowledgments
 OpenCV JavaTutorial
+
 OpenWeatherMap.org
